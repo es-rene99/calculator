@@ -43,6 +43,8 @@ body {
 }
 
 .calculator__number-keys {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
 .calculator__operator-keys {

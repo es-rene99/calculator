@@ -24,15 +24,15 @@ const uiDOMManipulation = (() => {
       const targetElement = document.querySelector(targetElementClass);
       for (let i = 0; i < newElementDataSet.length; i++) {
         const newElement = document.createElement('div');
-        newElement.classList.add(newElementClass);
+        newElement.classList.add(...newElementClass);
         newElement.textContent = newElementDataSet[i];
         targetElement.appendChild(newElement);
       }
     }
-    const numberKeysDataSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '='];
-    const operatorKeysDataSet = ['+', '-', '*', '/'];
-    createKeyLayout('.calculator__number-keys', 'calculator__number-key', numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', 'calculator__operator-key', operatorKeysDataSet);
+    const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', 'More'];
+    const operatorKeysDataSet = ['DEL', 'AC', '+', ' - ', ' * ', ' / ', 'ANS', '='];
+    createKeyLayout('.calculator__number-keys', ['calculator__key', 'calculator__number-key'], numberKeysDataSet);
+    createKeyLayout('.calculator__operator-keys', ['calculator__key', 'calculator__operator-key'], operatorKeysDataSet);
   };
 
   return {

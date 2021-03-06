@@ -12,6 +12,11 @@
       type="image/svg+xml"
       href="/src/resources/calculator.svg"
     />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header class="header">
@@ -19,7 +24,7 @@
     </header>
     <main class="main">
       <div class="calculator calculator--border">
-        <div class="calculator__screen calculator--border"></div>
+        <div class="calculator__screen calculator--border">2+2456</div>
         <div class="calculator__keys-area calculator--border">
           <div class="calculator__number-keys calculator--border"></div>
           <div class="calculator__operator-keys calculator--border"></div>
@@ -31,5 +36,9 @@
       <a href="https://thenounproject.com/icon.cheese/">The Noun Project</a>
     </footer>
     <script src="./src/js/script.js"></script>
+    <noscript
+      >JavaScript is disabled, please enable so the calculator works c:
+    </noscript>
+    <!-- TODO make noscript tag work https://stackoverflow.com/questions/34231292/html-noscript-tag-does-not-work -->
   </body>
 </html>

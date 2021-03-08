@@ -79,35 +79,3 @@ const main = (() => {
 })();
 
 main.init();
-
-// * Reference from previous grid project
-
-// function createBoard() {
-//   for (let i = 0; i < squareNumber; i++) {
-//     const square = document.createElement('div');
-//     square.classList.add('square');
-//     boardElement.appendChild(square);
-//   }
-//   gridSquares = document.querySelectorAll('.square');
-//   gridSquares.forEach((square) => {
-//     square.addEventListener('mouseover', setColorizedSquare);
-// TODO possible mobile solution with Jquery
-// if (window.matchMedia('(min-width: 900px)')) {
-
-// // TODO remove and leave only for desktop for now...
-//   square.addEventListener('mouseover', setColorizedSquare);
-// }
-// else {
-//   debugger;
-//   $('.square').on('tap', setColorizedSquare);
-// }
-//   });
-// }
-
-// const defaultSquarePerSide = 16;
-// let squareNumber;
-// let gridSquares;
-// const sizeOfGrid = `${82}vw`;
-
-// const squarePerSideElement = document.querySelector('#squarePerSize');
-// const change = document.querySelector('#change-size');

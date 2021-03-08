@@ -20,14 +20,23 @@ const calculator = (() => {
 
 const uiDOMManipulation = (() => {
   let display = [];
+  let operationResult;
+  let previousResult;
+  let storedOperator;
   const calculatorScreen = document.querySelector('.calculator__screen');
   const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
   const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
   const determineActionOnDisplay = (keyValue) => {
     if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
       display.push(keyValue);
+    } else if (storedOperator !== undefined) {
+      operationResult = calculator.operate(previousResult, +display.join(''), storedOperator);
+      display = [operationResult];
+    } else if (keyValue === 'DEL') {
+      // todo del, ans and ac scenario
     } else {
-      console.log('TODO logic for operator key data set');
+      previousResult = +display.join('');
+      storedOperator = keyValue;
       display = [];
     }
     calculatorScreen.textContent = display.join('');

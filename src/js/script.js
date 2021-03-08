@@ -19,18 +19,38 @@ const calculator = (() => {
 })();
 
 const uiDOMManipulation = (() => {
+  let display = [];
+  const calculatorScreen = document.querySelector('.calculator__screen');
+  const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
+  const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
+  const determineActionOnDisplay = (keyValue) => {
+    if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
+      display.push(keyValue);
+    } else {
+      console.log('TODO logic for operator key data set');
+      display = [];
+    }
+    calculatorScreen.textContent = display.join('');
+  };
+  function typeKey(e) {
+    const { keyValue } = e.srcElement.dataset;
+    determineActionOnDisplay(keyValue);
+  }
   const createCalculatorKeys = () => {
     function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
       const targetElement = document.querySelector(targetElementClass);
       for (let i = 0; i < newElementDataSet.length; i++) {
         const newElement = document.createElement('div');
         newElement.classList.add(...newElementClass);
+        newElement.setAttribute('data-key-value', newElementDataSet[i]);
         newElement.textContent = newElementDataSet[i];
         targetElement.appendChild(newElement);
+        newElement.addEventListener('click', typeKey);
       }
     }
-    const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', 'More'];
-    const operatorKeysDataSet = ['DEL', 'AC', '+', ' - ', ' * ', ' / ', 'ANS', '='];
+
+    // TODO what to add on the last symbol?
+
     createKeyLayout('.calculator__number-keys', ['calculator__key', 'calculator__number-key'], numberKeysDataSet);
     createKeyLayout('.calculator__operator-keys', ['calculator__key', 'calculator__operator-key'], operatorKeysDataSet);
   };

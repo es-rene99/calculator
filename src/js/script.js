@@ -27,8 +27,11 @@ const uiDOMManipulation = (() => {
   let previousResult;
   let storedOperator;
   const calculatorScreen = document.querySelector('.calculator__screen');
-  const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
-  const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
+  const keysDataSet = {
+    numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
+    operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
+    specialKeyDataSet: ['DEL', 'AC', 'ANS', '='],
+  };
   const calculatorKeyClasses = {
     calculatorKey: 'calculator__key',
     calculatorNumberKey: 'calculator__number-key',
@@ -58,7 +61,7 @@ const uiDOMManipulation = (() => {
       storedOperator = undefined;
       display = [];
       operationResult = [];
-    } else if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
+    } else if (keysDataSet.numberKeysDataSet.some((value) => value.toString() === keyValue)) {
       display.push(keyValue);
     } else if (storedOperator !== undefined) {
       operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
@@ -80,7 +83,7 @@ const uiDOMManipulation = (() => {
   }
   const createCalculatorKeys = () => {
     function setSpecialCharClass(newElement, newElementDataSet, i) {
-      if (['DEL', 'AC', 'ANS', '='].some((textValue) => textValue === newElementDataSet[i])) {
+      if (keysDataSet.specialKeyDataSet.some((textValue) => textValue === newElementDataSet[i])) {
         newElement.classList.add('calculator__special-key');
       }
     }
@@ -101,8 +104,8 @@ const uiDOMManipulation = (() => {
 
     // TODO what to add on the last symbol?
 
-    createKeyLayout('.calculator__number-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorNumberKey], numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorOperatorKey], operatorKeysDataSet);
+    createKeyLayout('.calculator__number-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorNumberKey], keysDataSet.numberKeysDataSet);
+    createKeyLayout('.calculator__operator-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorOperatorKey], keysDataSet.operatorKeysDataSet);
   };
 
   return {

@@ -30,7 +30,11 @@ const uiDOMManipulation = (() => {
   const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
   const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
   const determineActionOnDisplay = (keyValue) => {
-    if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
+    if (keyValue === 'AC') {
+      storedOperator = undefined;
+      display = [];
+      operationResult = [];
+    } else if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
       display.push(keyValue);
     } else if (storedOperator !== undefined) {
       operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);

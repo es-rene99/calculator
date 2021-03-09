@@ -29,6 +29,26 @@ const uiDOMManipulation = (() => {
   const calculatorScreen = document.querySelector('.calculator__screen');
   const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
   const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
+  const calculatorKeyClass = 'calculator__key';
+  const calculatorNumberKeyClass = 'calculator__number-key';
+  const calculatorOperatorClass = 'calculator__operator-key';
+  function isSpecialCharActions(keyValue) {
+  }
+  function isANumberKeyDataSet(keyValue) {
+
+  }
+  function isValidToDoOperation(keyValue) {
+    return this.storedOperator !== undefined;
+  }
+  function cleanStoredOperator(keyValue) {
+    this.storedOperator = undefined;
+  }
+  function storeOperatorAction(keyValue) {
+    storedOperator = keyValue;
+    previousResult = getDisplayValue();
+    display = [];
+  }
+
   const determineActionOnDisplay = (keyValue) => {
     if (keyValue === 'AC') {
       storedOperator = undefined;
@@ -55,12 +75,20 @@ const uiDOMManipulation = (() => {
     determineActionOnDisplay(keyValue);
   }
   const createCalculatorKeys = () => {
+    function setSpecialCharClass(newElement, newElementDataSet, i) {
+      if (['DEL', 'AC', 'ANS', '='].some((textValue) => textValue === newElementDataSet[i])) {
+        newElement.classList.add('calculator__special-key');
+      }
+    }
     function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
       const targetElement = document.querySelector(targetElementClass);
       for (let i = 0; i < newElementDataSet.length; i++) {
         const newElement = document.createElement('div');
         newElement.classList.add(...newElementClass);
         newElement.setAttribute('data-key-value', newElementDataSet[i]);
+        if (newElementClass[1] === calculatorOperatorClass) {
+          setSpecialCharClass(newElement, newElementDataSet, i);
+        }
         newElement.textContent = newElementDataSet[i];
         targetElement.appendChild(newElement);
         newElement.addEventListener('click', typeKey);
@@ -69,8 +97,8 @@ const uiDOMManipulation = (() => {
 
     // TODO what to add on the last symbol?
 
-    createKeyLayout('.calculator__number-keys', ['calculator__key', 'calculator__number-key'], numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', ['calculator__key', 'calculator__operator-key'], operatorKeysDataSet);
+    createKeyLayout('.calculator__number-keys', [calculatorKeyClass, calculatorNumberKeyClass], numberKeysDataSet);
+    createKeyLayout('.calculator__operator-keys', [calculatorKeyClass, calculatorOperatorClass], operatorKeysDataSet);
   };
 
   return {

@@ -20,6 +20,9 @@ const calculator = (() => {
 
 const uiDOMManipulation = (() => {
   let display = [];
+  function getDisplayValue() {
+    return (display.length !== 0) ? +display.join('') : display;
+  }
   let operationResult;
   let previousResult;
   let storedOperator;
@@ -30,16 +33,18 @@ const uiDOMManipulation = (() => {
     if (numberKeysDataSet.some((value) => value.toString() === keyValue)) {
       display.push(keyValue);
     } else if (storedOperator !== undefined) {
-      operationResult = calculator.operate(previousResult, +display.join(''), storedOperator);
+      operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
       display = [operationResult];
-    } else if (keyValue === 'DEL') {
-      // todo del, ans and ac scenario
+      storedOperator = undefined;
     } else {
-      previousResult = +display.join('');
       storedOperator = keyValue;
+      previousResult = getDisplayValue();
       display = [];
     }
-    calculatorScreen.textContent = display.join('');
+    if (keyValue === 'DEL') {
+      // todo del, ans and ac scenario
+    }
+    calculatorScreen.textContent = getDisplayValue();
   };
   function typeKey(e) {
     const { keyValue } = e.srcElement.dataset;

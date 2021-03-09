@@ -29,8 +29,12 @@ const uiDOMManipulation = (() => {
   const calculatorScreen = document.querySelector('.calculator__screen');
   const numberKeysDataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'];
   const operatorKeysDataSet = ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='];
-  const calculatorKeyClass = 'calculator__key';
-  const calculatorNumberKeyClass = 'calculator__number-key';
+  const calculatorKeyClasses = {
+    calculatorKey: 'calculator__key',
+    calculatorNumberKey: 'calculator__number-key',
+    calculatorOperatorKey: 'calculator__operator-key',
+    calculatorSpecialKey: 'calculator__special-key',
+  };
   const calculatorOperatorClass = 'calculator__operator-key';
   function isSpecialCharActions(keyValue) {
   }
@@ -86,7 +90,7 @@ const uiDOMManipulation = (() => {
         const newElement = document.createElement('div');
         newElement.classList.add(...newElementClass);
         newElement.setAttribute('data-key-value', newElementDataSet[i]);
-        if (newElementClass[1] === calculatorOperatorClass) {
+        if (newElementClass[1] === calculatorKeyClasses.calculatorOperatorKey) {
           setSpecialCharClass(newElement, newElementDataSet, i);
         }
         newElement.textContent = newElementDataSet[i];
@@ -97,8 +101,8 @@ const uiDOMManipulation = (() => {
 
     // TODO what to add on the last symbol?
 
-    createKeyLayout('.calculator__number-keys', [calculatorKeyClass, calculatorNumberKeyClass], numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', [calculatorKeyClass, calculatorOperatorClass], operatorKeysDataSet);
+    createKeyLayout('.calculator__number-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorNumberKey], numberKeysDataSet);
+    createKeyLayout('.calculator__operator-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorOperatorKey], operatorKeysDataSet);
   };
 
   return {

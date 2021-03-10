@@ -19,14 +19,6 @@ const calculator = (() => {
 })();
 
 const uiDOMManipulation = (() => {
-  let display = [];
-  function getDisplayValue() {
-    return (display.length !== 0) ? +display.join('') : display;
-  }
-  let operationResult;
-  let previousResult;
-  let storedOperator;
-  const calculatorScreen = document.querySelector('.calculator__screen');
   const keysDataSet = {
     numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
     operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
@@ -38,50 +30,75 @@ const uiDOMManipulation = (() => {
     calculatorOperatorKey: 'calculator__operator-key',
     calculatorSpecialKey: 'calculator__special-key',
   };
-  const calculatorOperatorClass = 'calculator__operator-key';
-  function isSpecialCharActions(keyValue) {
-  }
-  function isANumberKeyDataSet(keyValue) {
 
+  let display = [];
+  function getDisplayValue() {
+    return (display.length !== 0) ? +display.join('') : display;
   }
-  function isValidToDoOperation(keyValue) {
-    return this.storedOperator !== undefined;
+  const calculatorScreen = document.querySelector('.calculator__screen');
+  let operationResult;
+  let previousResult;
+  let storedOperator;
+
+  function isSpecialKeyActions(keyValue, specificClass) {
+    if (specificClass === calculatorKeyClasses.calculatorSpecialKey) {
+      switch (keyValue) {
+        case 'AC':
+          storedOperator = undefined;
+          display = [];
+          operationResult = [];
+          break;
+        case 'DEL':
+          break;
+
+        case 'ANS':
+          break;
+
+        case '=':
+          break;
+
+        default:
+          break;
+      }
+    }
   }
-  function cleanStoredOperator(keyValue) {
-    this.storedOperator = undefined;
+  function isNumberKeyActions(keyValue, specificClass) {
+    if (specificClass === calculatorKeyClasses.calculatorNumberKey) {
+      display.push(keyValue);
+    }
   }
-  function storeOperatorAction(keyValue) {
+  function operationsIfValidToDoOperations(keyValue) {
+    if (storedOperator !== undefined) {
+      operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
+      display = [operationResult];
+      storedOperator = undefined;
+    }
+  }
+  function saveOperatorValue(keyValue) {
     storedOperator = keyValue;
     previousResult = getDisplayValue();
     display = [];
   }
 
-  const determineActionOnDisplay = (keyValue) => {
-    if (keyValue === 'AC') {
-      storedOperator = undefined;
-      display = [];
-      operationResult = [];
-    } else if (keysDataSet.numberKeysDataSet.some((value) => value.toString() === keyValue)) {
-      display.push(keyValue);
-    } else if (storedOperator !== undefined) {
-      operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
-      display = [operationResult];
-      storedOperator = undefined;
-    } else {
-      storedOperator = keyValue;
-      previousResult = getDisplayValue();
-      display = [];
-    }
-    if (keyValue === 'DEL') {
-      // todo del, ans and ac scenario
-    }
+  function updateScreen() {
     calculatorScreen.textContent = getDisplayValue();
-  };
-  function typeKey(e) {
-    const { keyValue } = e.srcElement.dataset;
-    determineActionOnDisplay(keyValue);
   }
+
+  const determineActionOnDisplay = (keyValue, specificClass) => {
+    isSpecialKeyActions(keyValue, specificClass);
+    isNumberKeyActions(keyValue, specificClass);
+    operationsIfValidToDoOperations(keyValue, specificClass);
+    operationsIfValidToDoOperations(keyValue);
+    saveOperatorValue(keyValue);
+    updateScreen();
+  };
+
   const createCalculatorKeys = () => {
+    function typeKey(e) {
+      const { keyValue } = e.srcElement.dataset;
+      const specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
+      determineActionOnDisplay(keyValue, specificClass);
+    }
     function setSpecialCharClass(newElement, newElementDataSet, i) {
       if (keysDataSet.specialKeyDataSet.some((textValue) => textValue === newElementDataSet[i])) {
         newElement.classList.add('calculator__special-key');

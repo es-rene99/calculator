@@ -6,7 +6,7 @@ const calculator = (() => {
       case '-':
         return firstOperator - secondOperator;
       case '*':
-        return firstOperator / secondOperator;
+        return firstOperator * secondOperator;
       case '/':
         return firstOperator / secondOperator;
       default:
@@ -39,57 +39,66 @@ const uiDOMManipulation = (() => {
   let operationResult;
   let previousResult;
   let storedOperator;
+  let actionAlreadyMade;
 
-  function isSpecialKeyActions(keyValue, specificClass) {
-    if (specificClass === calculatorKeyClasses.calculatorSpecialKey) {
-      switch (keyValue) {
-        case 'AC':
-          storedOperator = undefined;
-          display = [];
-          operationResult = [];
-          break;
-        case 'DEL':
-          break;
+  const possibleCalculatorActions = {
+    isSpecialKeyActions(keyValue, specificClass) {
+      if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !actionAlreadyMade) {
+        switch (keyValue) {
+          case 'AC':
+            storedOperator = undefined;
+            display = [];
+            operationResult = [];
+            break;
+          case 'DEL':
+            break;
 
-        case 'ANS':
-          break;
+          case 'ANS':
+            break;
 
-        case '=':
-          break;
+          case '=':
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+        actionAlreadyMade = true;
       }
-    }
-  }
-  function isNumberKeyActions(keyValue, specificClass) {
-    if (specificClass === calculatorKeyClasses.calculatorNumberKey) {
-      display.push(keyValue);
-    }
-  }
-  function operationsIfValidToDoOperations(keyValue) {
-    if (storedOperator !== undefined) {
-      operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
-      display = [operationResult];
-      storedOperator = undefined;
-    }
-  }
-  function saveOperatorValue(keyValue) {
-    storedOperator = keyValue;
-    previousResult = getDisplayValue();
-    display = [];
-  }
+    },
+    isNumberKeyActions(keyValue, specificClass) {
+      if (specificClass === calculatorKeyClasses.calculatorNumberKey && !actionAlreadyMade) {
+        display.push(keyValue);
+        actionAlreadyMade = true;
+      }
+    },
+    operationsIfValidToDoOperations() {
+      if (storedOperator !== undefined && !actionAlreadyMade) {
+        operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
+        display = [operationResult];
+        storedOperator = undefined;
+        actionAlreadyMade = true;
+      }
+    },
+    saveOperatorValue(keyValue) {
+      if (!actionAlreadyMade) {
+        storedOperator = keyValue;
+        previousResult = getDisplayValue();
+        display = [];
+        actionAlreadyMade = true;
+      }
+    },
+  };
 
   function updateScreen() {
     calculatorScreen.textContent = getDisplayValue();
   }
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
-    isSpecialKeyActions(keyValue, specificClass);
-    isNumberKeyActions(keyValue, specificClass);
-    operationsIfValidToDoOperations(keyValue, specificClass);
-    operationsIfValidToDoOperations(keyValue);
-    saveOperatorValue(keyValue);
+    actionAlreadyMade = false;
+    possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
+    possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
+    possibleCalculatorActions.operationsIfValidToDoOperations();
+    possibleCalculatorActions.saveOperatorValue(keyValue);
     updateScreen();
   };
 

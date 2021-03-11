@@ -1,14 +1,28 @@
 const calculator = (() => {
-  const operate = (firstOperator, secondOperator, operator) => {
+  function replaceAnsOnTerm(term) {
+    return term.reduce((total, num) => {
+      // TODO need to finish = first to be able to have a reasonable scenario
+      if (num === 'Ans') {
+        // TODO the this is not working...
+        const replacedAnsNum = this.previousOperationResult;
+        return total * replacedAnsNum;
+      }
+      return total + num;
+    });
+  }
+
+  const operate = (firstTerm, secondTerm, operator) => {
+    const firstTermClean = +replaceAnsOnTerm(firstTerm);
+    const secondTermClean = +replaceAnsOnTerm(secondTerm);
     switch (operator) {
       case '+':
-        return firstOperator + secondOperator;
+        return firstTermClean + secondTermClean;
       case '-':
-        return firstOperator - secondOperator;
+        return firstTermClean - secondTermClean;
       case '*':
-        return firstOperator * secondOperator;
+        return firstTermClean * secondTermClean;
       case '/':
-        return firstOperator / secondOperator;
+        return firstTermClean / secondTermClean;
       default:
         return 'error, not valid operator';
     }
@@ -22,7 +36,7 @@ const uiDOMManipulation = (() => {
   const keysDataSet = {
     numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
     operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
-    specialKeyDataSet: ['DEL', 'AC', 'ANS', '='],
+    specialKeyDataSet: ['DEL', 'AC', 'ANS'],
   };
   const calculatorKeyClasses = {
     calculatorKey: 'calculator__key',
@@ -33,15 +47,24 @@ const uiDOMManipulation = (() => {
 
   let display = [];
   function getDisplayValue() {
-    return (display.length !== 0) ? +display.join('') : display;
+    return (display.length !== 0) ? display.join('') : display;
   }
   const calculatorScreen = document.querySelector('.calculator__screen');
   let operationResult;
-  let previousResult;
+  let previousTerm;
+  let previousOperationResult;
+  let previousActionWasAnOperation = false;
   let storedOperator;
   let actionAlreadyMade;
 
   const possibleCalculatorActions = {
+    cleanDisplayIfPreviousActionWasOperation() {
+      if (previousActionWasAnOperation) {
+        display = [];
+        operationResult = [];
+        previousActionWasAnOperation = false;
+      }
+    },
     isSpecialKeyActions(keyValue, specificClass) {
       if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !actionAlreadyMade) {
         switch (keyValue) {
@@ -59,9 +82,12 @@ const uiDOMManipulation = (() => {
             break;
 
           case 'ANS':
+            // TODO if ans is undefined add a "hey but I still haven't even done an operation!"
+            display.push('Ans');
             break;
 
           case '=':
+
             break;
 
           default:
@@ -78,8 +104,10 @@ const uiDOMManipulation = (() => {
     },
     operationsIfValidToDoOperations() {
       if (storedOperator !== undefined && !actionAlreadyMade) {
-        operationResult = calculator.operate(previousResult, getDisplayValue(), storedOperator);
+        operationResult = calculator.operate(previousTerm, display, storedOperator);
         display = [operationResult];
+        previousOperationResult = operationResult;
+        previousActionWasAnOperation = true;
         storedOperator = undefined;
         actionAlreadyMade = true;
       }
@@ -87,7 +115,7 @@ const uiDOMManipulation = (() => {
     saveOperatorValue(keyValue) {
       if (!actionAlreadyMade) {
         storedOperator = keyValue;
-        previousResult = getDisplayValue();
+        previousTerm = display;
         display = [];
         actionAlreadyMade = true;
       }
@@ -100,7 +128,7 @@ const uiDOMManipulation = (() => {
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
     actionAlreadyMade = false;
-    debugger;
+    possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
     possibleCalculatorActions.operationsIfValidToDoOperations();

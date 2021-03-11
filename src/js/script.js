@@ -1,19 +1,17 @@
 const calculator = (() => {
-  function replaceAnsOnTerm(term) {
+  function replaceAnsOnTerm(term, previousOperationResult) {
     return term.reduce((total, num) => {
-      // TODO need to finish = first to be able to have a reasonable scenario
       if (num === 'Ans') {
-        // TODO the this is not working...
-        const replacedAnsNum = this.previousOperationResult;
+        const replacedAnsNum = previousOperationResult;
         return total * replacedAnsNum;
       }
       return total + num;
     });
   }
 
-  const operate = (firstTerm, secondTerm, operator) => {
-    const firstTermClean = +replaceAnsOnTerm(firstTerm);
-    const secondTermClean = +replaceAnsOnTerm(secondTerm);
+  const operate = (firstTerm, secondTerm, operator, previousOperationResult) => {
+    const firstTermClean = +replaceAnsOnTerm(firstTerm, previousOperationResult);
+    const secondTermClean = +replaceAnsOnTerm(secondTerm, previousOperationResult);
     switch (operator) {
       case '+':
         return firstTermClean + secondTermClean;
@@ -52,7 +50,7 @@ const uiDOMManipulation = (() => {
   const calculatorScreen = document.querySelector('.calculator__screen');
   let operationResult;
   let previousTerm;
-  let previousOperationResult;
+  let previousOperationResult = 0;
   let previousActionWasAnOperation = false;
   let storedOperator;
   let actionAlreadyMade;
@@ -104,7 +102,12 @@ const uiDOMManipulation = (() => {
     },
     operationsIfValidToDoOperations() {
       if (storedOperator !== undefined && !actionAlreadyMade) {
-        operationResult = calculator.operate(previousTerm, display, storedOperator);
+        operationResult = calculator.operate(
+          previousTerm,
+          display,
+          storedOperator,
+          previousOperationResult,
+        );
         display = [operationResult];
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;

@@ -51,6 +51,11 @@ const uiDOMManipulation = (() => {
             operationResult = [];
             break;
           case 'DEL':
+            if (display.length > 0) {
+              display.pop();
+            } else {
+              // TODO add display = "I'm empty inside :(";
+            }
             break;
 
           case 'ANS':
@@ -95,6 +100,7 @@ const uiDOMManipulation = (() => {
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
     actionAlreadyMade = false;
+    debugger;
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
     possibleCalculatorActions.operationsIfValidToDoOperations();

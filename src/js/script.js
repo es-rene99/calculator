@@ -130,7 +130,9 @@ const uiDOMManipulation = (() => {
   }
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
+    debugger;
     actionAlreadyMade = false;
+    // TODO left here, clean should only happen after an equal operation
     possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);

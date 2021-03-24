@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 const calculator = (() => {
   function replaceAnsOnTerm(term, previousOperationResult) {
     return term.reduce((total, num) => {
@@ -31,10 +32,11 @@ const calculator = (() => {
 })();
 
 const uiDOMManipulation = (() => {
+  //#region
   const keysDataSet = {
     numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
     operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
-    specialKeyDataSet: ['DEL', 'AC', 'ANS'],
+    specialKeyDataSet: ['DEL', 'AC', 'ANS', '='],
   };
   const calculatorKeyClasses = {
     calculatorKey: 'calculator__key',
@@ -53,7 +55,7 @@ const uiDOMManipulation = (() => {
   let previousOperationResult = 0;
   let previousActionWasAnOperation = false;
   let storedOperator;
-  let actionAlreadyMade;
+  let isActionOnDisplayAlreadyMade;
 
   const possibleCalculatorActions = {
     cleanDisplayIfPreviousActionWasOperation() {
@@ -64,7 +66,7 @@ const uiDOMManipulation = (() => {
       }
     },
     isSpecialKeyActions(keyValue, specificClass) {
-      if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !actionAlreadyMade) {
+      if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
         switch (keyValue) {
           case 'AC':
             storedOperator = undefined;
@@ -85,23 +87,22 @@ const uiDOMManipulation = (() => {
             break;
 
           case '=':
-
-            break;
+            return;
 
           default:
             break;
         }
-        actionAlreadyMade = true;
+        isActionOnDisplayAlreadyMade = true;
       }
     },
     isNumberKeyActions(keyValue, specificClass) {
-      if (specificClass === calculatorKeyClasses.calculatorNumberKey && !actionAlreadyMade) {
+      if (specificClass === calculatorKeyClasses.calculatorNumberKey && !isActionOnDisplayAlreadyMade) {
         display.push(keyValue);
-        actionAlreadyMade = true;
+        isActionOnDisplayAlreadyMade = true;
       }
     },
     operationsIfValidToDoOperations() {
-      if (storedOperator !== undefined && !actionAlreadyMade) {
+      if (storedOperator !== undefined && !isActionOnDisplayAlreadyMade) {
         operationResult = calculator.operate(
           previousTerm,
           display,
@@ -112,15 +113,18 @@ const uiDOMManipulation = (() => {
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;
         storedOperator = undefined;
-        actionAlreadyMade = true;
+        isActionOnDisplayAlreadyMade = true;
       }
     },
-    saveOperatorValue(keyValue) {
-      if (!actionAlreadyMade) {
+    saveOperatorValue(keyValue, specificClass) {
+      if (!isActionOnDisplayAlreadyMade
+        && specificClass === calculatorKeyClasses.calculatorOperatorKey) {
+        // * Specific class is not saved that causes issues
         storedOperator = keyValue;
+        // TODO the previous term gets deleted, that's the issue
         previousTerm = display;
         display = [];
-        actionAlreadyMade = true;
+        isActionOnDisplayAlreadyMade = true;
       }
     },
   };
@@ -131,15 +135,17 @@ const uiDOMManipulation = (() => {
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
     debugger;
-    actionAlreadyMade = false;
+    isActionOnDisplayAlreadyMade = false;
     // TODO left here, clean should only happen after an equal operation
+    possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
+    // TODO Maybe this one should also evaluate if operation was already made
     possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
     possibleCalculatorActions.operationsIfValidToDoOperations();
-    possibleCalculatorActions.saveOperatorValue(keyValue);
     updateScreen();
   };
+  //#endregion
 
   const createCalculatorKeys = () => {
     function typeKey(e) {
@@ -188,3 +194,7 @@ const main = (() => {
 })();
 
 main.init();
+
+const keyBoardSupport = (() => {
+
+});

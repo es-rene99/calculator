@@ -5,3 +5,8 @@ This is one of the projects from The Odin Project, my own calculator designed on
 ## Cool things I learned
 
 - It appears that some of the best ways to about code duplication on BEM is to write more classes (like modifiers) that contains the reused styles. [Stackoverflow](https://stackoverflow.com/questions/59425745/how-to-write-bem-css-without-block-duplicate-nor-even-sass-support)[bem.info](https://en.bem.info/forum/20/)
+- There are 3 main keyboard events 
+  - keydown – fires when you press a key on the keyboard and it fires repeatedly while you holding down the key.
+  - keyup – fires when you release a key on the keyboard.
+  - keypress – fires when you press a character keyboard like a,b, or c, not the left arrow key, home, or end keyboard, so no special characters, The keypress also fires repeatedly while you hold down the key on the keyboard along keydown, so both are fired repeatedly for character keys, [but this was deprecated.](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
+  [javascripttutorial.net](https://www.javascripttutorial.net/javascript-dom/javascript-keyboard-events/)

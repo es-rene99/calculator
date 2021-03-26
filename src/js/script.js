@@ -32,12 +32,12 @@ const calculator = (() => {
 })();
 
 const uiDOMManipulation = (() => {
-  //#region
   const keysDataSet = {
     numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
     operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
     specialKeyDataSet: ['DEL', 'AC', 'ANS', '='],
   };
+  //#region
   const calculatorKeyClasses = {
     calculatorKey: 'calculator__key',
     calculatorNumberKey: 'calculator__number-key',
@@ -119,9 +119,7 @@ const uiDOMManipulation = (() => {
     saveOperatorValue(keyValue, specificClass) {
       if (!isActionOnDisplayAlreadyMade
         && specificClass === calculatorKeyClasses.calculatorOperatorKey) {
-        // * Specific class is not saved that causes issues
         storedOperator = keyValue;
-        // TODO the previous term gets deleted, that's the issue
         previousTerm = display;
         display = [];
         isActionOnDisplayAlreadyMade = true;
@@ -134,11 +132,8 @@ const uiDOMManipulation = (() => {
   }
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
-    debugger;
     isActionOnDisplayAlreadyMade = false;
-    // TODO left here, clean should only happen after an equal operation
     possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
-    // TODO Maybe this one should also evaluate if operation was already made
     possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
@@ -149,10 +144,29 @@ const uiDOMManipulation = (() => {
 
   const createCalculatorKeys = () => {
     function typeKey(e) {
-      const { keyValue } = e.srcElement.dataset;
-      const specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
+      let keyValue;
+      let specificClass;
+      if (e.key !== undefined) {
+        if (keysDataSet.numberKeysDataSet.some((number) => e.key === number.toString())) {
+          specificClass = calculatorKeyClasses.calculatorNumberKey;
+        } else if (keysDataSet.operatorKeysDataSet.some((operator) => e.key === operator)) {
+          specificClass = calculatorKeyClasses.calculatorOperatorKey;
+          if (keysDataSet.specialKeyDataSet.some((operator) => e.key === operator)) {
+            specificClass = calculatorKeyClasses.calculatorSpecialKey;
+          }
+        }
+        if (specificClass !== undefined) {
+          keyValue = e.key;
+        } else {
+          return;
+        }
+      } else {
+        keyValue = e.srcElement.dataset.keyValue;
+        specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
+      }
       determineActionOnDisplay(keyValue, specificClass);
     }
+
     function setSpecialCharClass(newElement, newElementDataSet, i) {
       if (keysDataSet.specialKeyDataSet.some((textValue) => textValue === newElementDataSet[i])) {
         newElement.classList.add('calculator__special-key');
@@ -161,22 +175,22 @@ const uiDOMManipulation = (() => {
     function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
       const targetElement = document.querySelector(targetElementClass);
       for (let i = 0; i < newElementDataSet.length; i++) {
+        const newElementValue = newElementDataSet[i];
         const newElement = document.createElement('div');
         newElement.classList.add(...newElementClass);
         newElement.setAttribute('data-key-value', newElementDataSet[i]);
         if (newElementClass[1] === calculatorKeyClasses.calculatorOperatorKey) {
           setSpecialCharClass(newElement, newElementDataSet, i);
         }
-        newElement.textContent = newElementDataSet[i];
+        newElement.textContent = newElementValue;
         targetElement.appendChild(newElement);
         newElement.addEventListener('click', typeKey);
       }
     }
-
-    // TODO what to add on the last symbol?
-
     createKeyLayout('.calculator__number-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorNumberKey], keysDataSet.numberKeysDataSet);
     createKeyLayout('.calculator__operator-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorOperatorKey], keysDataSet.operatorKeysDataSet);
+    // * Keyboard support
+    window.addEventListener('keydown', typeKey);
   };
 
   return {
@@ -194,7 +208,3 @@ const main = (() => {
 })();
 
 main.init();
-
-const keyBoardSupport = (() => {
-
-});

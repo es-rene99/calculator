@@ -11,6 +11,7 @@ const calculator = (() => {
   }
 
   const operate = (firstTerm, secondTerm, operator, previousOperationResult) => {
+    debugger;
     const firstTermClean = +replaceAnsOnTerm(firstTerm, previousOperationResult);
     const secondTermClean = +replaceAnsOnTerm(secondTerm, previousOperationResult);
     switch (operator) {
@@ -56,10 +57,11 @@ const uiDOMManipulation = (() => {
   let previousActionWasAnOperation = false;
   let storedOperator;
   let isActionOnDisplayAlreadyMade;
+  let isReadyForOperation;
 
   const possibleCalculatorActions = {
     cleanDisplayIfPreviousActionWasOperation() {
-      if (previousActionWasAnOperation) {
+      if (previousActionWasAnOperation && !isReadyForOperation) {
         display = [];
         operationResult = [];
         previousActionWasAnOperation = false;
@@ -102,7 +104,9 @@ const uiDOMManipulation = (() => {
       }
     },
     operationsIfValidToDoOperations() {
-      if (storedOperator !== undefined && !isActionOnDisplayAlreadyMade) {
+      // TODO did not work, is doing operations when it shouldn't
+      if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
+        debugger;
         operationResult = calculator.operate(
           previousTerm,
           display,
@@ -113,6 +117,7 @@ const uiDOMManipulation = (() => {
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;
         storedOperator = undefined;
+        isReadyForOperation = false;
         isActionOnDisplayAlreadyMade = true;
       }
     },
@@ -120,8 +125,12 @@ const uiDOMManipulation = (() => {
       if (!isActionOnDisplayAlreadyMade
         && specificClass === calculatorKeyClasses.calculatorOperatorKey) {
         storedOperator = keyValue;
-        previousTerm = display;
-        display = [];
+        if (previousTerm !== undefined) {
+          isReadyForOperation = true;
+        } else {
+          previousTerm = display;
+          display = [];
+        }
         isActionOnDisplayAlreadyMade = true;
       }
     },

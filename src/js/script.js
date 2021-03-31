@@ -11,7 +11,6 @@ const calculator = (() => {
   }
 
   const operate = (firstTerm, secondTerm, operator, previousOperationResult) => {
-    debugger;
     const firstTermClean = +replaceAnsOnTerm(firstTerm, previousOperationResult);
     const secondTermClean = +replaceAnsOnTerm(secondTerm, previousOperationResult);
     switch (operator) {
@@ -56,6 +55,7 @@ const uiDOMManipulation = (() => {
   let previousOperationResult = 0;
   let previousActionWasAnOperation = false;
   let storedOperator;
+  let consecutiveStoredOperator;
   let isActionOnDisplayAlreadyMade;
   let isReadyForOperation;
 
@@ -68,7 +68,8 @@ const uiDOMManipulation = (() => {
       }
     },
     isSpecialKeyActions(keyValue, specificClass) {
-      if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
+      if (specificClass === calculatorKeyClasses.calculatorSpecialKey
+        && !isActionOnDisplayAlreadyMade) {
         switch (keyValue) {
           case 'AC':
             storedOperator = undefined;
@@ -89,11 +90,13 @@ const uiDOMManipulation = (() => {
             break;
 
           case '=':
-            return;
+            isReadyForOperation = true;
+            break;
 
           default:
             break;
         }
+
         isActionOnDisplayAlreadyMade = true;
       }
     },
@@ -104,9 +107,7 @@ const uiDOMManipulation = (() => {
       }
     },
     operationsIfValidToDoOperations() {
-      // TODO did not work, is doing operations when it shouldn't
       if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-        debugger;
         operationResult = calculator.operate(
           previousTerm,
           display,
@@ -116,15 +117,25 @@ const uiDOMManipulation = (() => {
         display = [operationResult];
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;
-        storedOperator = undefined;
+        if (consecutiveStoredOperator !== undefined) {
+          storedOperator = consecutiveStoredOperator;
+        } else {
+          storedOperator = undefined;
+        }
+
         isReadyForOperation = false;
+        previousTerm = [operationResult];
         isActionOnDisplayAlreadyMade = true;
       }
     },
     saveOperatorValue(keyValue, specificClass) {
       if (!isActionOnDisplayAlreadyMade
         && specificClass === calculatorKeyClasses.calculatorOperatorKey) {
-        storedOperator = keyValue;
+        if (storedOperator !== undefined) {
+          consecutiveStoredOperator = keyValue;
+        } else {
+          storedOperator = keyValue;
+        }
         if (previousTerm !== undefined) {
           isReadyForOperation = true;
         } else {

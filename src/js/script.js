@@ -106,7 +106,7 @@ const uiDOMManipulation = (() => {
         isActionOnDisplayAlreadyMade = true;
       }
     },
-    operationsIfValidToDoOperations() {
+    operationsIfValidToDoOperations(keyValue) {
       if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
         operationResult = calculator.operate(
           previousTerm,
@@ -117,14 +117,17 @@ const uiDOMManipulation = (() => {
         display = [operationResult];
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;
-        if (consecutiveStoredOperator !== undefined) {
-          storedOperator = consecutiveStoredOperator;
-        } else {
-          storedOperator = undefined;
-        }
 
+        if (keyValue === '=') {
+          storedOperator = undefined;
+          previousTerm = undefined;
+        } else {
+          previousTerm = [operationResult];
+        }
+        if (consecutiveStoredOperator !== undefined && storedOperator !== undefined) {
+          storedOperator = consecutiveStoredOperator;
+        }
         isReadyForOperation = false;
-        previousTerm = [operationResult];
         isActionOnDisplayAlreadyMade = true;
       }
     },
@@ -153,11 +156,12 @@ const uiDOMManipulation = (() => {
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
     isActionOnDisplayAlreadyMade = false;
+    debugger;
     possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
     possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
     possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
-    possibleCalculatorActions.operationsIfValidToDoOperations();
+    possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);
     updateScreen();
   };
   //#endregion

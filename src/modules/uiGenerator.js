@@ -1,4 +1,4 @@
-import calculator from './calculator';
+import operate from './operate';
 import { keyClasses, keyDataSets } from './calculator-keys';
 
 const uiGenerator = (() => {
@@ -65,7 +65,7 @@ const uiGenerator = (() => {
     },
     operationsIfValidToDoOperations(keyValue) {
       if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-        operationResult = calculator.operate(
+        operationResult = operate(
           previousTerm,
           display,
           storedOperator,

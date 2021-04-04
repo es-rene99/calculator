@@ -637,55 +637,64 @@ const keyClasses = {
 
 /***/ }),
 
-/***/ "./src/modules/calculator.js":
+/***/ "./src/modules/operate.js":
+/*!********************************!*\
+  !*** ./src/modules/operate.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _replaceAns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./replaceAns */ "./src/modules/replaceAns.js");
+
+
+function operate(firstTerm, secondTerm, operator, previousOperationResult) {
+  const firstTermClean = +Object(_replaceAns__WEBPACK_IMPORTED_MODULE_0__["default"])(firstTerm, previousOperationResult);
+  const secondTermClean = +Object(_replaceAns__WEBPACK_IMPORTED_MODULE_0__["default"])(secondTerm, previousOperationResult);
+
+  switch (operator) {
+    case '+':
+      return firstTermClean + secondTermClean;
+
+    case '-':
+      return firstTermClean - secondTermClean;
+
+    case '*':
+      return firstTermClean * secondTermClean;
+
+    case '/':
+      return firstTermClean / secondTermClean;
+
+    default:
+      return 'error, not valid operator';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (operate);
+
+/***/ }),
+
+/***/ "./src/modules/replaceAns.js":
 /*!***********************************!*\
-  !*** ./src/modules/calculator.js ***!
+  !*** ./src/modules/replaceAns.js ***!
   \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const calculator = (() => {
-  function replaceAnsOnTerm(term, previousOperationResult) {
-    return term.reduce((total, num) => {
-      if (num === 'Ans') {
-        const replacedAnsNum = previousOperationResult;
-        return total * replacedAnsNum;
-      }
-
-      return total + num;
-    });
-  }
-
-  const operate = (firstTerm, secondTerm, operator, previousOperationResult) => {
-    const firstTermClean = +replaceAnsOnTerm(firstTerm, previousOperationResult);
-    const secondTermClean = +replaceAnsOnTerm(secondTerm, previousOperationResult);
-
-    switch (operator) {
-      case '+':
-        return firstTermClean + secondTermClean;
-
-      case '-':
-        return firstTermClean - secondTermClean;
-
-      case '*':
-        return firstTermClean * secondTermClean;
-
-      case '/':
-        return firstTermClean / secondTermClean;
-
-      default:
-        return 'error, not valid operator';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return replaceAns; });
+function replaceAns(term, previousOperationResult) {
+  return term.reduce((total, num) => {
+    if (num === 'Ans') {
+      const replacedAnsNum = previousOperationResult;
+      return total * replacedAnsNum;
     }
-  };
 
-  return {
-    operate
-  };
-})();
-
-/* harmony default export */ __webpack_exports__["default"] = (calculator);
+    return total + num;
+  });
+}
 
 /***/ }),
 
@@ -698,7 +707,7 @@ const calculator = (() => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _calculator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calculator */ "./src/modules/calculator.js");
+/* harmony import */ var _operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./operate */ "./src/modules/operate.js");
 /* harmony import */ var _calculator_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calculator-keys */ "./src/modules/calculator-keys.js");
 
 
@@ -771,7 +780,7 @@ const uiGenerator = (() => {
 
     operationsIfValidToDoOperations(keyValue) {
       if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-        operationResult = _calculator__WEBPACK_IMPORTED_MODULE_0__["default"].operate(previousTerm, display, storedOperator, previousOperationResult);
+        operationResult = Object(_operate__WEBPACK_IMPORTED_MODULE_0__["default"])(previousTerm, display, storedOperator, previousOperationResult);
         display = [operationResult];
         previousOperationResult = operationResult;
         previousActionWasAnOperation = true;

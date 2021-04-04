@@ -156,7 +156,6 @@ const uiDOMManipulation = (() => {
 
   const determineActionOnDisplay = (keyValue, specificClass) => {
     isActionOnDisplayAlreadyMade = false;
-    debugger;
     possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
     possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
     possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
@@ -171,16 +170,22 @@ const uiDOMManipulation = (() => {
       let keyValue;
       let specificClass;
       if (e.key !== undefined) {
-        if (keysDataSet.numberKeysDataSet.some((number) => e.key === number.toString())) {
+        console.log(e.key);
+        // TODO need to do more tests for backspace
+        let keyToEvaluate = e.key;
+        if (e.key === 'Backspace') {
+          keyToEvaluate = 'DEL';
+        }
+        if (keysDataSet.numberKeysDataSet.some((number) => keyToEvaluate === number.toString())) {
           specificClass = calculatorKeyClasses.calculatorNumberKey;
-        } else if (keysDataSet.operatorKeysDataSet.some((operator) => e.key === operator)) {
+        } else if (keysDataSet.operatorKeysDataSet.some((operator) => keyToEvaluate === operator)) {
           specificClass = calculatorKeyClasses.calculatorOperatorKey;
-          if (keysDataSet.specialKeyDataSet.some((operator) => e.key === operator)) {
+          if (keysDataSet.specialKeyDataSet.some((operator) => keyToEvaluate === operator)) {
             specificClass = calculatorKeyClasses.calculatorSpecialKey;
           }
         }
         if (specificClass !== undefined) {
-          keyValue = e.key;
+          keyValue = keyToEvaluate;
         } else {
           return;
         }

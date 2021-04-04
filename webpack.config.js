@@ -11,25 +11,33 @@ module.exports = {
     chunkFilename: '[name].js',
   },
   module: {
-    rules: [{
-      test: /.jsx?$/,
-      include: [
-        path.resolve(__dirname, 'src'),
-      ],
-      exclude: [
-        path.resolve(__dirname, 'node_modules'),
-      ],
-      loader: 'babel-loader',
-      query: {
-        presets: [
-          ['@babel/env', {
-            targets: {
-              browsers: 'last 2 chrome versions',
-            },
-          }],
+    rules: [
+      {
+        test: /.jsx?$/,
+        include: [
+          path.resolve(__dirname, 'src'),
         ],
+        exclude: [
+          path.resolve(__dirname, 'node_modules'),
+        ],
+        loader: 'babel-loader',
+        query: {
+          presets: [
+            ['@babel/env', {
+              targets: {
+                browsers: 'last 2 chrome versions',
+              },
+            }],
+          ],
+        },
       },
-    }],
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      }],
   },
   resolve: {
     extensions: ['.json', '.js', '.jsx'],

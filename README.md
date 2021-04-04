@@ -10,3 +10,4 @@ This is one of the projects from The Odin Project, my own calculator designed on
   - keyup – fires when you release a key on the keyboard.
   - keypress – fires when you press a character keyboard like a,b, or c, not the left arrow key, home, or end keyboard, so no special characters, The keypress also fires repeatedly while you hold down the key on the keyboard along keydown, so both are fired repeatedly for character keys, [but this was deprecated.](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
   [javascripttutorial.net](https://www.javascripttutorial.net/javascript-dom/javascript-keyboard-events/)
+- [How to debug webpack with source maps ](https://blog.jakoblind.no/debug-webpack-app-browser/)

@@ -101,6 +101,32 @@ _modules_uiGenerator__WEBPACK_IMPORTED_MODULE_0__["default"].createCalculator();
 
 /***/ }),
 
+/***/ "./src/modules/calculator-keys.js":
+/*!****************************************!*\
+  !*** ./src/modules/calculator-keys.js ***!
+  \****************************************/
+/*! exports provided: keyDataSets, keyClasses */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "keyDataSets", function() { return keyDataSets; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "keyClasses", function() { return keyClasses; });
+const keyDataSets = {
+  numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
+  operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
+  specialKeyDataSet: ['DEL', 'AC', 'ANS', '=']
+};
+const keyClasses = {
+  calculatorKey: 'calculator__key',
+  calculatorNumberKey: 'calculator__number-key',
+  calculatorOperatorKey: 'calculator__operator-key',
+  calculatorSpecialKey: 'calculator__special-key'
+};
+
+
+/***/ }),
+
 /***/ "./src/modules/calculator.js":
 /*!***********************************!*\
   !*** ./src/modules/calculator.js ***!
@@ -163,21 +189,11 @@ const calculator = (() => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _calculator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calculator */ "./src/modules/calculator.js");
+/* harmony import */ var _calculator_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calculator-keys */ "./src/modules/calculator-keys.js");
+
 
 
 const uiGenerator = (() => {
-  const keysDataSet = {
-    numberKeysDataSet: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '?'],
-    operatorKeysDataSet: ['DEL', 'AC', '+', '-', '*', '/', 'ANS', '='],
-    specialKeyDataSet: ['DEL', 'AC', 'ANS', '=']
-  }; // #region
-
-  const calculatorKeyClasses = {
-    calculatorKey: 'calculator__key',
-    calculatorNumberKey: 'calculator__number-key',
-    calculatorOperatorKey: 'calculator__operator-key',
-    calculatorSpecialKey: 'calculator__special-key'
-  };
   let display = [];
 
   function getDisplayValue() {
@@ -203,7 +219,7 @@ const uiGenerator = (() => {
     },
 
     isSpecialKeyActions(keyValue, specificClass) {
-      if (specificClass === calculatorKeyClasses.calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
+      if (specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
         switch (keyValue) {
           case 'AC':
             storedOperator = undefined;
@@ -237,7 +253,7 @@ const uiGenerator = (() => {
     },
 
     isNumberKeyActions(keyValue, specificClass) {
-      if (specificClass === calculatorKeyClasses.calculatorNumberKey && !isActionOnDisplayAlreadyMade) {
+      if (specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey && !isActionOnDisplayAlreadyMade) {
         display.push(keyValue);
         isActionOnDisplayAlreadyMade = true;
       }
@@ -267,7 +283,7 @@ const uiGenerator = (() => {
     },
 
     saveOperatorValue(keyValue, specificClass) {
-      if (!isActionOnDisplayAlreadyMade && specificClass === calculatorKeyClasses.calculatorOperatorKey) {
+      if (!isActionOnDisplayAlreadyMade && specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
         if (storedOperator !== undefined) {
           consecutiveStoredOperator = keyValue;
         } else {
@@ -316,13 +332,13 @@ const uiGenerator = (() => {
           keyToEvaluate = 'DEL';
         }
 
-        if (keysDataSet.numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
-          specificClass = calculatorKeyClasses.calculatorNumberKey;
-        } else if (keysDataSet.operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
-          specificClass = calculatorKeyClasses.calculatorOperatorKey;
+        if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
+          specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
+        } else if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
+          specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
 
-          if (keysDataSet.specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
-            specificClass = calculatorKeyClasses.calculatorSpecialKey;
+          if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
+            specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
           }
         }
 
@@ -340,7 +356,7 @@ const uiGenerator = (() => {
     }
 
     function setSpecialCharClass(newElement, newElementDataSet, i) {
-      if (keysDataSet.specialKeyDataSet.some(textValue => textValue === newElementDataSet[i])) {
+      if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(textValue => textValue === newElementDataSet[i])) {
         newElement.classList.add('calculator__special-key');
       }
     }
@@ -354,7 +370,7 @@ const uiGenerator = (() => {
         newElement.classList.add(...newElementClass);
         newElement.setAttribute('data-key-value', newElementDataSet[i]);
 
-        if (newElementClass[1] === calculatorKeyClasses.calculatorOperatorKey) {
+        if (newElementClass[1] === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
           setSpecialCharClass(newElement, newElementDataSet, i);
         }
 
@@ -364,8 +380,8 @@ const uiGenerator = (() => {
       }
     }
 
-    createKeyLayout('.calculator__number-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorNumberKey], keysDataSet.numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', [calculatorKeyClasses.calculatorKey, calculatorKeyClasses.calculatorOperatorKey], keysDataSet.operatorKeysDataSet); // * Keyboard support
+    createKeyLayout('.calculator__number-keys', [_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey], _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet);
+    createKeyLayout('.calculator__operator-keys', [_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey], _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet); // * Keyboard support
 
     window.addEventListener('keydown', typeKey);
   };

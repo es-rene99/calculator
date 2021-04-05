@@ -601,19 +601,197 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_uiGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/uiGenerator */ "./src/modules/uiGenerator.js");
-/* harmony import */ var _assets_css_sanitize_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/css/sanitize.css */ "./src/assets/css/sanitize.css");
-/* harmony import */ var _assets_css_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/css/style.css */ "./src/assets/css/style.css");
+/* harmony import */ var _assets_css_sanitize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/css/sanitize.css */ "./src/assets/css/sanitize.css");
+/* harmony import */ var _assets_css_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/css/style.css */ "./src/assets/css/style.css");
+/* harmony import */ var _modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/uiGenerator */ "./src/modules/uiGenerator.js");
 
 
 
-_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_0__["default"].createCalculator();
+Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
 /***/ }),
 
-/***/ "./src/modules/calculator-keys.js":
+/***/ "./src/modules/calc-keys-controller.js":
+/*!*********************************************!*\
+  !*** ./src/modules/calc-keys-controller.js ***!
+  \*********************************************/
+/*! exports provided: typeKey, getDisplayValue */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "typeKey", function() { return typeKey; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDisplayValue", function() { return getDisplayValue; });
+/* harmony import */ var _calc_operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calc-operate */ "./src/modules/calc-operate.js");
+/* harmony import */ var _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calc-keys-model */ "./src/modules/calc-keys-model.js");
+
+
+let display = [];
+
+function getDisplayValue() {
+  return display.length !== 0 ? display.join('') : display;
+}
+
+let operationResult;
+let previousTerm;
+let previousOperationResult = 0;
+let previousActionWasAnOperation = false;
+let storedOperator;
+let consecutiveStoredOperator;
+let isActionOnDisplayAlreadyMade;
+let isReadyForOperation;
+const calculatorScreen = document.querySelector('.calculator__screen');
+
+function updateScreen() {
+  calculatorScreen.textContent = getDisplayValue();
+}
+
+const possibleCalculatorActions = {
+  cleanDisplayIfPreviousActionWasOperation() {
+    if (previousActionWasAnOperation && !isReadyForOperation) {
+      display = [];
+      operationResult = [];
+      previousActionWasAnOperation = false;
+    }
+  },
+
+  isSpecialKeyActions(keyValue, specificClass) {
+    if (specificClass === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
+      switch (keyValue) {
+        case 'AC':
+          storedOperator = undefined;
+          display = [];
+          operationResult = [];
+          break;
+
+        case 'DEL':
+          if (display.length > 0) {
+            display.pop();
+          } else {// TODO add display = "I'm empty inside :(";
+          }
+
+          break;
+
+        case 'ANS':
+          // TODO if ans is undefined add a "hey but I still haven't even done an operation!"
+          display.push('Ans');
+          break;
+
+        case '=':
+          isReadyForOperation = true;
+          break;
+
+        default:
+          break;
+      }
+
+      isActionOnDisplayAlreadyMade = true;
+    }
+  },
+
+  isNumberKeyActions(keyValue, specificClass) {
+    if (specificClass === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey && !isActionOnDisplayAlreadyMade) {
+      display.push(keyValue);
+      isActionOnDisplayAlreadyMade = true;
+    }
+  },
+
+  operationsIfValidToDoOperations(keyValue) {
+    if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
+      operationResult = Object(_calc_operate__WEBPACK_IMPORTED_MODULE_0__["default"])(previousTerm, display, storedOperator, previousOperationResult);
+      display = [operationResult];
+      previousOperationResult = operationResult;
+      previousActionWasAnOperation = true;
+
+      if (keyValue === '=') {
+        storedOperator = undefined;
+        previousTerm = undefined;
+      } else {
+        previousTerm = [operationResult];
+      }
+
+      if (consecutiveStoredOperator !== undefined && storedOperator !== undefined) {
+        storedOperator = consecutiveStoredOperator;
+      }
+
+      isReadyForOperation = false;
+      isActionOnDisplayAlreadyMade = true;
+    }
+  },
+
+  saveOperatorValue(keyValue, specificClass) {
+    if (!isActionOnDisplayAlreadyMade && specificClass === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
+      if (storedOperator !== undefined) {
+        consecutiveStoredOperator = keyValue;
+      } else {
+        storedOperator = keyValue;
+      }
+
+      if (previousTerm !== undefined) {
+        isReadyForOperation = true;
+      } else {
+        previousTerm = display;
+        display = [];
+      }
+
+      isActionOnDisplayAlreadyMade = true;
+    }
+  }
+
+};
+
+const determineActionOnDisplay = (keyValue, specificClass) => {
+  isActionOnDisplayAlreadyMade = false;
+  possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
+  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
+  possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
+  possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
+  possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);
+  updateScreen();
+};
+
+function typeKey(e) {
+  let keyValue;
+  let specificClass;
+
+  if (e.key !== undefined) {
+    // TODO need to do more tests for backspace
+    let keyToEvaluate = e.key;
+
+    if (e.key === 'Backspace') {
+      keyToEvaluate = 'DEL';
+    }
+
+    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
+      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
+    } else if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
+      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
+
+      if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
+        specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
+      }
+    }
+
+    if (specificClass !== undefined) {
+      keyValue = keyToEvaluate;
+    } else {
+      return;
+    }
+  } else {
+    keyValue = e.srcElement.dataset.keyValue;
+    specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
+  }
+
+  determineActionOnDisplay(keyValue, specificClass);
+}
+
+
+
+/***/ }),
+
+/***/ "./src/modules/calc-keys-model.js":
 /*!****************************************!*\
-  !*** ./src/modules/calculator-keys.js ***!
+  !*** ./src/modules/calc-keys-model.js ***!
   \****************************************/
 /*! exports provided: keyDataSets, keyClasses */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -637,21 +815,29 @@ const keyClasses = {
 
 /***/ }),
 
-/***/ "./src/modules/operate.js":
-/*!********************************!*\
-  !*** ./src/modules/operate.js ***!
-  \********************************/
+/***/ "./src/modules/calc-operate.js":
+/*!*************************************!*\
+  !*** ./src/modules/calc-operate.js ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _replaceAns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./replaceAns */ "./src/modules/replaceAns.js");
+function replaceAns(term, previousOperationResult) {
+  return term.reduce((total, num) => {
+    if (num === 'Ans') {
+      const replacedAnsNum = previousOperationResult;
+      return total * replacedAnsNum;
+    }
 
+    return total + num;
+  });
+}
 
 function operate(firstTerm, secondTerm, operator, previousOperationResult) {
-  const firstTermClean = +Object(_replaceAns__WEBPACK_IMPORTED_MODULE_0__["default"])(firstTerm, previousOperationResult);
-  const secondTermClean = +Object(_replaceAns__WEBPACK_IMPORTED_MODULE_0__["default"])(secondTerm, previousOperationResult);
+  const firstTermClean = +replaceAns(firstTerm, previousOperationResult);
+  const secondTermClean = +replaceAns(secondTerm, previousOperationResult);
 
   switch (operator) {
     case '+':
@@ -675,29 +861,6 @@ function operate(firstTerm, secondTerm, operator, previousOperationResult) {
 
 /***/ }),
 
-/***/ "./src/modules/replaceAns.js":
-/*!***********************************!*\
-  !*** ./src/modules/replaceAns.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return replaceAns; });
-function replaceAns(term, previousOperationResult) {
-  return term.reduce((total, num) => {
-    if (num === 'Ans') {
-      const replacedAnsNum = previousOperationResult;
-      return total * replacedAnsNum;
-    }
-
-    return total + num;
-  });
-}
-
-/***/ }),
-
 /***/ "./src/modules/uiGenerator.js":
 /*!************************************!*\
   !*** ./src/modules/uiGenerator.js ***!
@@ -707,210 +870,43 @@ function replaceAns(term, previousOperationResult) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./operate */ "./src/modules/operate.js");
-/* harmony import */ var _calculator_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calculator-keys */ "./src/modules/calculator-keys.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createCalculatorKeys; });
+/* harmony import */ var _calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calc-keys-controller */ "./src/modules/calc-keys-controller.js");
+/* harmony import */ var _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calc-keys-model */ "./src/modules/calc-keys-model.js");
 
 
-
-const uiGenerator = (() => {
-  let display = [];
-
-  function getDisplayValue() {
-    return display.length !== 0 ? display.join('') : display;
+function createCalculatorKeys() {
+  function setSpecialCharClass(newElement, newElementDataSet, i) {
+    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(textValue => textValue === newElementDataSet[i])) {
+      newElement.classList.add('calculator__special-key');
+    }
   }
 
-  const calculatorScreen = document.querySelector('.calculator__screen');
-  let operationResult;
-  let previousTerm;
-  let previousOperationResult = 0;
-  let previousActionWasAnOperation = false;
-  let storedOperator;
-  let consecutiveStoredOperator;
-  let isActionOnDisplayAlreadyMade;
-  let isReadyForOperation;
-  const possibleCalculatorActions = {
-    cleanDisplayIfPreviousActionWasOperation() {
-      if (previousActionWasAnOperation && !isReadyForOperation) {
-        display = [];
-        operationResult = [];
-        previousActionWasAnOperation = false;
+  function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
+    const targetElement = document.querySelector(targetElementClass);
+
+    for (let i = 0; i < newElementDataSet.length; i++) {
+      const newElementValue = newElementDataSet[i];
+      const newElement = document.createElement('div');
+      newElement.classList.add(...newElementClass);
+      newElement.setAttribute('data-key-value', newElementDataSet[i]);
+
+      if (newElementClass[1] === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
+        setSpecialCharClass(newElement, newElementDataSet, i);
       }
-    },
 
-    isSpecialKeyActions(keyValue, specificClass) {
-      if (specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
-        switch (keyValue) {
-          case 'AC':
-            storedOperator = undefined;
-            display = [];
-            operationResult = [];
-            break;
+      newElement.textContent = newElementValue;
+      targetElement.appendChild(newElement); // * Click behavior
 
-          case 'DEL':
-            if (display.length > 0) {
-              display.pop();
-            } else {// TODO add display = "I'm empty inside :(";
-            }
-
-            break;
-
-          case 'ANS':
-            // TODO if ans is undefined add a "hey but I still haven't even done an operation!"
-            display.push('Ans');
-            break;
-
-          case '=':
-            isReadyForOperation = true;
-            break;
-
-          default:
-            break;
-        }
-
-        isActionOnDisplayAlreadyMade = true;
-      }
-    },
-
-    isNumberKeyActions(keyValue, specificClass) {
-      if (specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey && !isActionOnDisplayAlreadyMade) {
-        display.push(keyValue);
-        isActionOnDisplayAlreadyMade = true;
-      }
-    },
-
-    operationsIfValidToDoOperations(keyValue) {
-      if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-        operationResult = Object(_operate__WEBPACK_IMPORTED_MODULE_0__["default"])(previousTerm, display, storedOperator, previousOperationResult);
-        display = [operationResult];
-        previousOperationResult = operationResult;
-        previousActionWasAnOperation = true;
-
-        if (keyValue === '=') {
-          storedOperator = undefined;
-          previousTerm = undefined;
-        } else {
-          previousTerm = [operationResult];
-        }
-
-        if (consecutiveStoredOperator !== undefined && storedOperator !== undefined) {
-          storedOperator = consecutiveStoredOperator;
-        }
-
-        isReadyForOperation = false;
-        isActionOnDisplayAlreadyMade = true;
-      }
-    },
-
-    saveOperatorValue(keyValue, specificClass) {
-      if (!isActionOnDisplayAlreadyMade && specificClass === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
-        if (storedOperator !== undefined) {
-          consecutiveStoredOperator = keyValue;
-        } else {
-          storedOperator = keyValue;
-        }
-
-        if (previousTerm !== undefined) {
-          isReadyForOperation = true;
-        } else {
-          previousTerm = display;
-          display = [];
-        }
-
-        isActionOnDisplayAlreadyMade = true;
-      }
+      newElement.addEventListener('click', _calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__["typeKey"]);
     }
-
-  };
-
-  function updateScreen() {
-    calculatorScreen.textContent = getDisplayValue();
   }
 
-  const determineActionOnDisplay = (keyValue, specificClass) => {
-    isActionOnDisplayAlreadyMade = false;
-    possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
-    possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
-    possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
-    possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
-    possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);
-    updateScreen();
-  }; // #endregion
+  createKeyLayout('.calculator__number-keys', [_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey], _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet);
+  createKeyLayout('.calculator__operator-keys', [_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey], _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet); // * Keyboard support behavior
 
-
-  const createCalculatorKeys = () => {
-    function typeKey(e) {
-      let keyValue;
-      let specificClass;
-
-      if (e.key !== undefined) {
-        console.log(e.key); // TODO need to do more tests for backspace
-
-        let keyToEvaluate = e.key;
-
-        if (e.key === 'Backspace') {
-          keyToEvaluate = 'DEL';
-        }
-
-        if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
-          specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
-        } else if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
-          specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
-
-          if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
-            specificClass = _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
-          }
-        }
-
-        if (specificClass !== undefined) {
-          keyValue = keyToEvaluate;
-        } else {
-          return;
-        }
-      } else {
-        keyValue = e.srcElement.dataset.keyValue;
-        specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
-      }
-
-      determineActionOnDisplay(keyValue, specificClass);
-    }
-
-    function setSpecialCharClass(newElement, newElementDataSet, i) {
-      if (_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(textValue => textValue === newElementDataSet[i])) {
-        newElement.classList.add('calculator__special-key');
-      }
-    }
-
-    function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
-      const targetElement = document.querySelector(targetElementClass);
-
-      for (let i = 0; i < newElementDataSet.length; i++) {
-        const newElementValue = newElementDataSet[i];
-        const newElement = document.createElement('div');
-        newElement.classList.add(...newElementClass);
-        newElement.setAttribute('data-key-value', newElementDataSet[i]);
-
-        if (newElementClass[1] === _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey) {
-          setSpecialCharClass(newElement, newElementDataSet, i);
-        }
-
-        newElement.textContent = newElementValue;
-        targetElement.appendChild(newElement);
-        newElement.addEventListener('click', typeKey);
-      }
-    }
-
-    createKeyLayout('.calculator__number-keys', [_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey], _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet);
-    createKeyLayout('.calculator__operator-keys', [_calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey], _calculator_keys__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet); // * Keyboard support
-
-    window.addEventListener('keydown', typeKey);
-  };
-
-  return {
-    createCalculator: createCalculatorKeys
-  };
-})();
-
-/* harmony default export */ __webpack_exports__["default"] = (uiGenerator);
+  window.addEventListener('keydown', _calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__["typeKey"]);
+}
 
 /***/ })
 

@@ -8,20 +8,33 @@ function replaceAns(term, previousOperationResult) {
   });
 }
 
+function roundResult(operationResult) {
+  // * Found in:
+  // * [https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary]
+  return Math.round(operationResult * 100) / 100;
+}
+
 function operate(firstTerm, secondTerm, operator, previousOperationResult) {
+  let operationResult;
   const firstTermClean = +replaceAns(firstTerm, previousOperationResult);
   const secondTermClean = +replaceAns(secondTerm, previousOperationResult);
   switch (operator) {
     case '+':
-      return firstTermClean + secondTermClean;
+      operationResult = firstTermClean + secondTermClean;
+      break;
     case '-':
-      return firstTermClean - secondTermClean;
+      operationResult = firstTermClean - secondTermClean;
+      break;
     case '*':
-      return firstTermClean * secondTermClean;
+      operationResult = firstTermClean * secondTermClean;
+      break;
     case '/':
-      return firstTermClean / secondTermClean;
+      operationResult = firstTermClean / secondTermClean;
+      break;
     default:
-      return 'error, not valid operator';
+      operationResult = 'error, not valid operator';
   }
+  operationResult = roundResult(operationResult);
+  return operationResult;
 }
 export default operate;

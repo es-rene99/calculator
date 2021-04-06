@@ -129,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, ":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 4em;\n  letter-spacing: 5px;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__key {\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:active {\n  color: blue;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;EACE,yBAAyB;EACzB,2BAA2B;EAC3B,0BAA0B;EAC1B,+BAA+B;EAC/B,kBAAkB;AACpB;;AAEA;;EAEE,yCAAyC;EACzC,wBAAwB;EACxB,SAAS;EACT,UAAU;EACV,sCAAsC;AACxC;;AAEA;;EAEE,kBAAkB;AACpB;;AAEA;EACE,cAAc;EACd,cAAc;EACd,YAAY;AACd;;AAEA;EACE,0CAA0C;AAC5C;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,wCAAwC;EACxC,kCAAkC;EAClC,cAAc;EACd,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,aAAa;EACb,+BAA+B;AACjC;;AAEA;EACE,aAAa;EACb,qCAAqC;AACvC;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,aAAa;EACb,gCAAgC;AAClC;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE;IACE,YAAY;EACd;AACF","sourcesContent":[":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 4em;\n  letter-spacing: 5px;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__key {\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:active {\n  color: blue;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.i, ":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__key {\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:active {\n  color: blue;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;EACE,yBAAyB;EACzB,2BAA2B;EAC3B,0BAA0B;EAC1B,+BAA+B;EAC/B,kBAAkB;AACpB;;AAEA;;EAEE,yCAAyC;EACzC,wBAAwB;EACxB,SAAS;EACT,UAAU;EACV,sCAAsC;AACxC;;AAEA;;EAEE,kBAAkB;AACpB;;AAEA;EACE,cAAc;EACd,cAAc;EACd,YAAY;AACd;;AAEA;EACE,0CAA0C;AAC5C;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,wCAAwC;EACxC,kCAAkC;EAClC,gBAAgB;EAChB,mBAAmB;EACnB,mBAAmB;EACnB,gBAAgB;EAChB,uBAAuB;AACzB;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,aAAa;EACb,+BAA+B;AACjC;;AAEA;EACE,aAAa;EACb,qCAAqC;AACvC;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,aAAa;EACb,gCAAgC;AAClC;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE;IACE,YAAY;EACd;AACF","sourcesContent":[":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__key {\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:active {\n  color: blue;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -607,7 +607,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])();
+Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(); // TODO need to create a handler here in case an error occurs
+
+/***/ }),
+
+/***/ "./src/modules/calc-error-msg-model.js":
+/*!*********************************************!*\
+  !*** ./src/modules/calc-error-msg-model.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const errorMsg = {
+  emptyEqualOrDelete: "I'm empty </br> inside :')",
+  divisionByZero: 'Impossible </br> X.X!',
+  default: 'Error, </br> sorry :('
+};
+/* harmony default export */ __webpack_exports__["default"] = (errorMsg);
 
 /***/ }),
 
@@ -624,7 +642,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDisplayValue", function() { return getDisplayValue; });
 /* harmony import */ var _calc_operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calc-operate */ "./src/modules/calc-operate.js");
 /* harmony import */ var _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calc-keys-model */ "./src/modules/calc-keys-model.js");
+/* harmony import */ var _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calc-error-msg-model */ "./src/modules/calc-error-msg-model.js");
 
+
+ // TODO need to separate logic handler and display UI.
 
 let display = [];
 
@@ -640,10 +661,11 @@ let storedOperator;
 let consecutiveStoredOperator;
 let isActionOnDisplayAlreadyMade;
 let isReadyForOperation;
+let shouldAnErrorMsgDisplay;
 const calculatorScreen = document.querySelector('.calculator__screen');
 
 function updateScreen() {
-  calculatorScreen.textContent = getDisplayValue();
+  calculatorScreen.innerHTML = setTimeout(getDisplayValue(), 5000);
 }
 
 const possibleCalculatorActions = {
@@ -656,6 +678,10 @@ const possibleCalculatorActions = {
   },
 
   isSpecialKeyActions(keyValue, specificClass) {
+    function isDisplayEmpty() {
+      return display.length === 0;
+    }
+
     if (specificClass === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
       switch (keyValue) {
         case 'AC':
@@ -665,20 +691,28 @@ const possibleCalculatorActions = {
           break;
 
         case 'DEL':
-          if (display.length > 0) {
+          if (!isDisplayEmpty()) {
             display.pop();
-          } else {// TODO add display = "I'm empty inside :(";
+          } else {
+            display = _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete;
           }
 
           break;
 
         case 'ANS':
-          // TODO if ans is undefined add a "hey but I still haven't even done an operation!"
           display.push('Ans');
           break;
 
         case '=':
-          isReadyForOperation = true;
+          if (isDisplayEmpty()) {
+            display = [_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete];
+            shouldAnErrorMsgDisplay = true;
+          } else if (storedOperator === '') {
+            return;
+          } else {
+            isReadyForOperation = true;
+          }
+
           break;
 
         default:
@@ -742,6 +776,13 @@ const possibleCalculatorActions = {
 
 const determineActionOnDisplay = (keyValue, specificClass) => {
   isActionOnDisplayAlreadyMade = false;
+
+  if (shouldAnErrorMsgDisplay) {
+    display = [];
+    updateScreen();
+    shouldAnErrorMsgDisplay = false;
+  }
+
   possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
   possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
   possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);

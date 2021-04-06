@@ -1,5 +1,8 @@
 import operate from './calc-operate';
 import { keyClasses, keyDataSets } from './calc-keys-model';
+import errorMsg from './calc-error-msg-model';
+
+// TODO need to separate logic handler and display UI.
 
 let display = [];
 function getDisplayValue() {
@@ -13,10 +16,11 @@ let storedOperator;
 let consecutiveStoredOperator;
 let isActionOnDisplayAlreadyMade;
 let isReadyForOperation;
+let shouldAnErrorMsgDisplay;
 const calculatorScreen = document.querySelector('.calculator__screen');
 
 function updateScreen() {
-  calculatorScreen.textContent = getDisplayValue();
+  calculatorScreen.innerHTML = setTimeout(getDisplayValue(), 5000);
 }
 
 const possibleCalculatorActions = {
@@ -28,6 +32,9 @@ const possibleCalculatorActions = {
     }
   },
   isSpecialKeyActions(keyValue, specificClass) {
+    function isDisplayEmpty() {
+      return display.length === 0;
+    }
     if (specificClass === keyClasses.calculatorSpecialKey
       && !isActionOnDisplayAlreadyMade) {
       switch (keyValue) {
@@ -37,20 +44,27 @@ const possibleCalculatorActions = {
           operationResult = [];
           break;
         case 'DEL':
-          if (display.length > 0) {
+          if (!isDisplayEmpty()) {
             display.pop();
           } else {
-            // TODO add display = "I'm empty inside :(";
+            display = errorMsg.emptyEqualOrDelete;
           }
           break;
 
         case 'ANS':
-          // TODO if ans is undefined add a "hey but I still haven't even done an operation!"
           display.push('Ans');
           break;
 
         case '=':
-          isReadyForOperation = true;
+          if (isDisplayEmpty()) {
+            display = [errorMsg.emptyEqualOrDelete];
+            shouldAnErrorMsgDisplay = true;
+          } else if (storedOperator === '') {
+            return;
+          } else {
+            isReadyForOperation = true;
+          }
+
           break;
 
         default:
@@ -112,6 +126,11 @@ const possibleCalculatorActions = {
 
 const determineActionOnDisplay = (keyValue, specificClass) => {
   isActionOnDisplayAlreadyMade = false;
+  if (shouldAnErrorMsgDisplay) {
+    display = [];
+    updateScreen();
+    shouldAnErrorMsgDisplay = false;
+  }
   possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
   possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
   possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);

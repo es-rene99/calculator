@@ -20,7 +20,7 @@ let shouldAnErrorMsgDisplay;
 const calculatorScreen = document.querySelector('.calculator__screen');
 
 function updateScreen() {
-  calculatorScreen.innerHTML = setTimeout(getDisplayValue(), 5000);
+  calculatorScreen.innerHTML = getDisplayValue();
 }
 
 const possibleCalculatorActions = {
@@ -48,6 +48,7 @@ const possibleCalculatorActions = {
             display.pop();
           } else {
             display = errorMsg.emptyEqualOrDelete;
+            shouldAnErrorMsgDisplay = true;
           }
           break;
 
@@ -57,7 +58,7 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            display = [errorMsg.emptyEqualOrDelete];
+            display = errorMsg.emptyEqualOrDelete;
             shouldAnErrorMsgDisplay = true;
           } else if (storedOperator === '') {
             return;

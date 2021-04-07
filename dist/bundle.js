@@ -621,9 +621,9 @@ Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(); // TODO 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const errorMsg = {
-  emptyEqualOrDelete: "I'm empty </br> inside :')",
-  divisionByZero: 'Impossible </br> X.X!',
-  default: 'Error, </br> sorry :('
+  emptyEqualOrDelete: ["I'm empty </br> inside :')"],
+  divisionByZero: ['Impossible </br> X.X!'],
+  default: ['Error, </br> sorry :(']
 };
 /* harmony default export */ __webpack_exports__["default"] = (errorMsg);
 
@@ -665,7 +665,7 @@ let shouldAnErrorMsgDisplay;
 const calculatorScreen = document.querySelector('.calculator__screen');
 
 function updateScreen() {
-  calculatorScreen.innerHTML = setTimeout(getDisplayValue(), 5000);
+  calculatorScreen.innerHTML = getDisplayValue();
 }
 
 const possibleCalculatorActions = {
@@ -695,6 +695,7 @@ const possibleCalculatorActions = {
             display.pop();
           } else {
             display = _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete;
+            shouldAnErrorMsgDisplay = true;
           }
 
           break;
@@ -705,7 +706,7 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            display = [_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete];
+            display = _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete;
             shouldAnErrorMsgDisplay = true;
           } else if (storedOperator === '') {
             return;

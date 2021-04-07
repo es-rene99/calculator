@@ -1,6 +1,7 @@
 import operate from './calc-operate';
 import { keyClasses, keyDataSets } from './calc-keys-model';
 import errorMsg from './calc-error-msg-model';
+import isEmpty from './isEmpty-snippet';
 
 // TODO need to separate logic handler and display UI.
 
@@ -62,6 +63,8 @@ const possibleCalculatorActions = {
         case 'DEL':
           if (!isDisplayEmpty()) {
             display.pop();
+          } else if (!isEmpty(previousTerm)) {
+            return; // * continue if the user has stored something on the previous term
           } else {
             displayErrorMsg(errorMsg.emptyEqualOrDelete);
           }
@@ -73,12 +76,12 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            if (storedOperator !== undefined && storedOperator !== '') {
+            if (!isEmpty(storedOperator)) {
               displayErrorMsg(errorMsg.default);
             } else {
               displayErrorMsg(errorMsg.emptyEqualOrDelete);
             }
-          } else if (storedOperator === '') {
+          } else if (isEmpty(storedOperator)) {
             return; // * Return the value on display
           } else {
             isReadyForOperation = true;

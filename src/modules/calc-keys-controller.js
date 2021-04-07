@@ -23,9 +23,27 @@ function updateScreen() {
   calculatorScreen.innerHTML = getDisplayValue();
 }
 
+function cleanScreen() {
+  if (!shouldAnErrorMsgDisplay) {
+    display = [];
+  }
+  operationResult = [];
+  previousTerm = undefined;
+  storedOperator = undefined;
+  consecutiveStoredOperator = undefined;
+  previousActionWasAnOperation = false;
+  isReadyForOperation = false;
+}
+
+function displayErrorMsg(errorMsgProp) {
+  shouldAnErrorMsgDisplay = true;
+  display = errorMsgProp;
+  cleanScreen();
+}
+
 const possibleCalculatorActions = {
-  cleanDisplayIfPreviousActionWasOperation() {
-    if (previousActionWasAnOperation && !isReadyForOperation) {
+  cleanDisplayIfPreviousActionWasOperation(keyValue) {
+    if (previousActionWasAnOperation && !isReadyForOperation && keyValue !== '=') {
       display = [];
       operationResult = [];
       previousActionWasAnOperation = false;
@@ -39,16 +57,13 @@ const possibleCalculatorActions = {
       && !isActionOnDisplayAlreadyMade) {
       switch (keyValue) {
         case 'AC':
-          storedOperator = undefined;
-          display = [];
-          operationResult = [];
+          cleanScreen();
           break;
         case 'DEL':
           if (!isDisplayEmpty()) {
             display.pop();
           } else {
-            display = errorMsg.emptyEqualOrDelete;
-            shouldAnErrorMsgDisplay = true;
+            displayErrorMsg(errorMsg.emptyEqualOrDelete);
           }
           break;
 
@@ -58,14 +73,16 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            display = errorMsg.emptyEqualOrDelete;
-            shouldAnErrorMsgDisplay = true;
+            if (storedOperator !== undefined && storedOperator !== '') {
+              displayErrorMsg(errorMsg.default);
+            } else {
+              displayErrorMsg(errorMsg.emptyEqualOrDelete);
+            }
           } else if (storedOperator === '') {
-            return;
+            return; // * Return the value on display
           } else {
             isReadyForOperation = true;
           }
-
           break;
 
         default:
@@ -133,7 +150,7 @@ const determineActionOnDisplay = (keyValue, specificClass) => {
     shouldAnErrorMsgDisplay = false;
   }
   possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
-  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
+  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation(keyValue);
   possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
   possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
   possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);

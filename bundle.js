@@ -643,6 +643,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _calc_operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calc-operate */ "./src/modules/calc-operate.js");
 /* harmony import */ var _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calc-keys-model */ "./src/modules/calc-keys-model.js");
 /* harmony import */ var _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calc-error-msg-model */ "./src/modules/calc-error-msg-model.js");
+/* harmony import */ var _isEmpty_snippet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isEmpty-snippet */ "./src/modules/isEmpty-snippet.js");
+
 
 
  // TODO need to separate logic handler and display UI.
@@ -710,6 +712,8 @@ const possibleCalculatorActions = {
         case 'DEL':
           if (!isDisplayEmpty()) {
             display.pop();
+          } else if (!Object(_isEmpty_snippet__WEBPACK_IMPORTED_MODULE_3__["default"])(previousTerm)) {
+            return; // * continue if the user has stored something on the previous term
           } else {
             displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete);
           }
@@ -722,12 +726,12 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            if (storedOperator !== undefined && storedOperator !== '') {
+            if (!Object(_isEmpty_snippet__WEBPACK_IMPORTED_MODULE_3__["default"])(storedOperator)) {
               displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].default);
             } else {
               displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete);
             }
-          } else if (storedOperator === '') {
+          } else if (Object(_isEmpty_snippet__WEBPACK_IMPORTED_MODULE_3__["default"])(storedOperator)) {
             return; // * Return the value on display
           } else {
             isReadyForOperation = true;
@@ -933,6 +937,22 @@ function operate(firstTerm, secondTerm, operator, previousOperationResult) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (operate);
+
+/***/ }),
+
+/***/ "./src/modules/isEmpty-snippet.js":
+/*!****************************************!*\
+  !*** ./src/modules/isEmpty-snippet.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isEmpty; });
+function isEmpty(value) {
+  return value === '' || value === undefined || value === null || value === [];
+}
 
 /***/ }),
 

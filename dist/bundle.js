@@ -129,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, ":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__mysterious-key {\n  text-decoration: none;\n  color: inherit;\n  font-size: 1.4em;\n}\n\n.calculator__key {\n  cursor: pointer;\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:hover {\n  color: #00ffe7;\n}\n\n.calculator__key:active {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;EACE,yBAAyB;EACzB,2BAA2B;EAC3B,0BAA0B;EAC1B,+BAA+B;EAC/B,kBAAkB;AACpB;;AAEA;;EAEE,yCAAyC;EACzC,wBAAwB;EACxB,SAAS;EACT,UAAU;EACV,sCAAsC;AACxC;;AAEA;;EAEE,kBAAkB;AACpB;;AAEA;EACE,cAAc;EACd,cAAc;EACd,YAAY;AACd;;AAEA;EACE,0CAA0C;AAC5C;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,wCAAwC;EACxC,kCAAkC;EAClC,gBAAgB;EAChB,mBAAmB;EACnB,mBAAmB;EACnB,gBAAgB;EAChB,uBAAuB;AACzB;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,aAAa;EACb,+BAA+B;AACjC;;AAEA;EACE,aAAa;EACb,qCAAqC;AACvC;;AAEA;EACE,qBAAqB;EACrB,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,eAAe;EACf,kBAAkB;EAClB,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,cAAc;EACd,gBAAgB;EAChB,yBAAyB;EACzB,UAAU;EACV,WAAW;EACX,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,aAAa;EACb,gCAAgC;AAClC;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE;IACE,YAAY;EACd;AACF","sourcesContent":[":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__mysterious-key {\n  text-decoration: none;\n  color: inherit;\n  font-size: 1.4em;\n}\n\n.calculator__key {\n  cursor: pointer;\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:hover {\n  color: #00ffe7;\n}\n\n.calculator__key:active {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.i, ":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__mysterious-key {\n  text-decoration: none;\n  color: inherit;\n  font-size: 1.4em;\n}\n\n.calculator__key {\n  cursor: pointer;\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:hover {\n  color: #00ffe7;\n}\n\n.calculator__key:active {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__key--pressed {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;EACE,yBAAyB;EACzB,2BAA2B;EAC3B,0BAA0B;EAC1B,+BAA+B;EAC/B,kBAAkB;AACpB;;AAEA;;EAEE,yCAAyC;EACzC,wBAAwB;EACxB,SAAS;EACT,UAAU;EACV,sCAAsC;AACxC;;AAEA;;EAEE,kBAAkB;AACpB;;AAEA;EACE,cAAc;EACd,cAAc;EACd,YAAY;AACd;;AAEA;EACE,0CAA0C;AAC5C;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,wCAAwC;EACxC,kCAAkC;EAClC,gBAAgB;EAChB,mBAAmB;EACnB,mBAAmB;EACnB,gBAAgB;EAChB,uBAAuB;AACzB;;AAEA;EACE,cAAc;EACd,WAAW;EACX,mBAAmB;EACnB,aAAa;EACb,+BAA+B;AACjC;;AAEA;EACE,aAAa;EACb,qCAAqC;AACvC;;AAEA;EACE,qBAAqB;EACrB,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,eAAe;EACf,kBAAkB;EAClB,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,cAAc;EACd,gBAAgB;EAChB,yBAAyB;EACzB,UAAU;EACV,WAAW;EACX,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,cAAc;EACd,gBAAgB;EAChB,yBAAyB;EACzB,UAAU;EACV,WAAW;EACX,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,aAAa;EACb,gCAAgC;AAClC;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE;IACE,YAAY;EACd;AACF","sourcesContent":[":root {\n  --main-border-color: #ccc;\n  --background-color: #1c1c1c;\n  --secondary-color: #abebd2;\n  --secondary-text-color: #136f63;\n  --text-color: #ccc;\n}\n\nhtml,\nbody {\n  background-color: var(--background-color);\n  color: var(--text-color);\n  margin: 0;\n  padding: 0;\n  font-family: \"DotGothic16\", sans-serif;\n}\n\n.header,\n.footer {\n  text-align: center;\n}\n\n.calculator {\n  margin: 0 auto;\n  max-width: 80%;\n  height: 77vh;\n}\n\n.calculator--border {\n  border: 1px solid var(--main-border-color);\n}\n\n.calculator__screen {\n  max-width: 90%;\n  height: 18%;\n  margin: 1.6rem auto;\n  background-color: var(--secondary-color);\n  color: var(--secondary-text-color);\n  font-size: 2.1em;\n  letter-spacing: 5px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.calculator__keys-area {\n  max-width: 90%;\n  height: 70%;\n  margin: 1.6rem auto;\n  display: grid;\n  grid-template-columns: 69% auto;\n}\n\n.calculator__number-keys {\n  display: grid;\n  grid-template-columns: auto auto auto;\n}\n\n.calculator__mysterious-key {\n  text-decoration: none;\n  color: inherit;\n  font-size: 1.4em;\n}\n\n.calculator__key {\n  cursor: pointer;\n  text-align: center;\n  line-height: 11vh;\n  border: 1px solid black;\n}\n\n.calculator__key:hover {\n  color: #00ffe7;\n}\n\n.calculator__key:active {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__key--pressed {\n  color: #00ffe7;\n  font-size: 0.9em;\n  background-color: #313131;\n  width: 90%;\n  height: 90%;\n  text-align: center;\n  margin: auto auto;\n}\n\n.calculator__operator-keys {\n  display: grid;\n  grid-template-columns: auto auto;\n}\n\n.footer a {\n  color: #8a8aff;\n}\n\n@media (min-width: 900px) {\n  .calculator {\n    width: 33rem;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -844,7 +844,11 @@ function typeKey(e) {
     }
 
     if (specificClass !== undefined) {
-      keyValue = keyToEvaluate;
+      keyValue = keyToEvaluate; // TODO refactor this logic to uiGenerator
+
+      const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
+      const keyToPress = calcKeys.find(calcKey => keyValue === calcKey.innerText);
+      keyToPress.classList.add('calculator__key--pressed');
     } else {
       return;
     }
@@ -983,6 +987,36 @@ function createCalculatorKeys() {
     }
   }
 
+  function removePressedKeyStyle(e) {
+    // TODO refactor into function since is also used on typekey
+    let keyValue;
+    let specificClass; // TODO need to do more tests for backspace
+
+    let keyToEvaluate = e.key;
+
+    if (e.key === 'Backspace') {
+      keyToEvaluate = 'DEL';
+    }
+
+    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
+      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
+    } else if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
+      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
+
+      if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
+        specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
+      }
+    }
+
+    if (specificClass !== undefined) {
+      keyValue = keyToEvaluate; // TODO refactor this logic to uiGenerator
+
+      const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
+      const keyToPress = calcKeys.find(calcKey => keyValue === calcKey.innerText);
+      keyToPress.classList.remove('calculator__key--pressed');
+    }
+  }
+
   function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
     const targetElement = document.querySelector(targetElementClass);
 
@@ -1018,6 +1052,7 @@ function createCalculatorKeys() {
   createKeyLayout('.calculator__operator-keys', [_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorKey, _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey], _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet); // * Keyboard support behavior
 
   window.addEventListener('keydown', _calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__["typeKey"]);
+  window.addEventListener('keyup', removePressedKeyStyle);
 }
 
 /***/ })

@@ -183,6 +183,10 @@ function typeKey(e) {
     }
     if (specificClass !== undefined) {
       keyValue = keyToEvaluate;
+      // TODO refactor this logic to uiGenerator
+      const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
+      const keyToPress = calcKeys.find((calcKey) => keyValue === calcKey.innerText);
+      keyToPress.classList.add('calculator__key--pressed');
     } else {
       return;
     }

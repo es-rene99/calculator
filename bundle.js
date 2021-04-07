@@ -668,9 +668,28 @@ function updateScreen() {
   calculatorScreen.innerHTML = getDisplayValue();
 }
 
+function cleanScreen() {
+  if (!shouldAnErrorMsgDisplay) {
+    display = [];
+  }
+
+  operationResult = [];
+  previousTerm = undefined;
+  storedOperator = undefined;
+  consecutiveStoredOperator = undefined;
+  previousActionWasAnOperation = false;
+  isReadyForOperation = false;
+}
+
+function displayErrorMsg(errorMsgProp) {
+  shouldAnErrorMsgDisplay = true;
+  display = errorMsgProp;
+  cleanScreen();
+}
+
 const possibleCalculatorActions = {
-  cleanDisplayIfPreviousActionWasOperation() {
-    if (previousActionWasAnOperation && !isReadyForOperation) {
+  cleanDisplayIfPreviousActionWasOperation(keyValue) {
+    if (previousActionWasAnOperation && !isReadyForOperation && keyValue !== '=') {
       display = [];
       operationResult = [];
       previousActionWasAnOperation = false;
@@ -685,17 +704,14 @@ const possibleCalculatorActions = {
     if (specificClass === _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey && !isActionOnDisplayAlreadyMade) {
       switch (keyValue) {
         case 'AC':
-          storedOperator = undefined;
-          display = [];
-          operationResult = [];
+          cleanScreen();
           break;
 
         case 'DEL':
           if (!isDisplayEmpty()) {
             display.pop();
           } else {
-            display = _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete;
-            shouldAnErrorMsgDisplay = true;
+            displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete);
           }
 
           break;
@@ -706,10 +722,13 @@ const possibleCalculatorActions = {
 
         case '=':
           if (isDisplayEmpty()) {
-            display = _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete;
-            shouldAnErrorMsgDisplay = true;
+            if (storedOperator !== undefined && storedOperator !== '') {
+              displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].default);
+            } else {
+              displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].emptyEqualOrDelete);
+            }
           } else if (storedOperator === '') {
-            return;
+            return; // * Return the value on display
           } else {
             isReadyForOperation = true;
           }
@@ -785,7 +804,7 @@ const determineActionOnDisplay = (keyValue, specificClass) => {
   }
 
   possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
-  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation();
+  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation(keyValue);
   possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
   possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
   possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);

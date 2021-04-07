@@ -56,14 +56,31 @@ body {
   grid-template-columns: auto auto auto;
 }
 
+.calculator__mysterious-key {
+  text-decoration: none;
+  color: inherit;
+  font-size: 1.4em;
+}
+
 .calculator__key {
+  cursor: pointer;
   text-align: center;
   line-height: 11vh;
   border: 1px solid black;
 }
 
+.calculator__key:hover {
+  color: #00ffe7;
+}
+
 .calculator__key:active {
-  color: blue;
+  color: #00ffe7;
+  font-size: 0.9em;
+  background-color: #313131;
+  width: 90%;
+  height: 90%;
+  text-align: center;
+  margin: auto auto;
 }
 
 .calculator__operator-keys {

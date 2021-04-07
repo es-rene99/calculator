@@ -87,7 +87,9 @@ const possibleCalculatorActions = {
             isReadyForOperation = true;
           }
           break;
-
+        // * Best scenario
+        case '?':
+          return;
         default:
           break;
       }
@@ -146,18 +148,20 @@ const possibleCalculatorActions = {
 };
 
 const determineActionOnDisplay = (keyValue, specificClass) => {
-  isActionOnDisplayAlreadyMade = false;
-  if (shouldAnErrorMsgDisplay) {
-    display = [];
+  if (keyValue !== '?') {
+    isActionOnDisplayAlreadyMade = false;
+    if (shouldAnErrorMsgDisplay) {
+      display = [];
+      updateScreen();
+      shouldAnErrorMsgDisplay = false;
+    }
+    possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
+    possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation(keyValue);
+    possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
+    possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
+    possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);
     updateScreen();
-    shouldAnErrorMsgDisplay = false;
   }
-  possibleCalculatorActions.saveOperatorValue(keyValue, specificClass);
-  possibleCalculatorActions.cleanDisplayIfPreviousActionWasOperation(keyValue);
-  possibleCalculatorActions.isSpecialKeyActions(keyValue, specificClass);
-  possibleCalculatorActions.isNumberKeyActions(keyValue, specificClass);
-  possibleCalculatorActions.operationsIfValidToDoOperations(keyValue);
-  updateScreen();
 };
 
 function typeKey(e) {

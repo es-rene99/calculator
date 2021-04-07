@@ -12,17 +12,27 @@ export default function createCalculatorKeys() {
 
     for (let i = 0; i < newElementDataSet.length; i++) {
       const newElementValue = newElementDataSet[i];
-      const newElement = document.createElement('div');
-      newElement.classList.add(...newElementClass);
-      newElement.setAttribute('data-key-value', newElementDataSet[i]);
-      if (newElementClass[1] === keyClasses.calculatorOperatorKey) {
-        setSpecialCharClass(newElement, newElementDataSet, i);
+      if (newElementValue === '?') {
+        const newElement = document.createElement('a');
+        newElement.classList.add(...newElementClass, 'calculator__mysterious-key');
+        newElement.setAttribute('data-key-value', newElementDataSet[i]);
+        newElement.textContent = newElementValue;
+        newElement.setAttribute('href', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        newElement.setAttribute('target', '_blank');
+        targetElement.appendChild(newElement);
+      } else {
+        const newElement = document.createElement('div');
+        newElement.classList.add(...newElementClass);
+        newElement.setAttribute('data-key-value', newElementDataSet[i]);
+        if (newElementClass[1] === keyClasses.calculatorOperatorKey) {
+          setSpecialCharClass(newElement, newElementDataSet, i);
+        }
+        newElement.textContent = newElementValue;
+        targetElement.appendChild(newElement);
+        newElement.addEventListener('click', typeKey);
       }
-      newElement.textContent = newElementValue;
-      targetElement.appendChild(newElement);
 
       // * Click behavior
-      newElement.addEventListener('click', typeKey);
     }
   }
 

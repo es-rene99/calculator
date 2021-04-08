@@ -164,32 +164,42 @@ const determineActionOnDisplay = (keyValue, specificClass) => {
   }
 };
 
-function typeKey(e) {
-  let keyValue;
-  let specificClass;
-  if (e.key !== undefined) {
-    // TODO need to do more tests for backspace
-    let keyToEvaluate = e.key;
-    if (e.key === 'Backspace') {
-      keyToEvaluate = 'DEL';
+function determineIfKeyIsSupportedByKeyboard(key, isButtonReleased) {
+  if (key !== undefined) {
+    let keyValue = key;
+    let specificClass;
+    if (key === 'Backspace') {
+      keyValue = 'DEL';
     }
-    if (keyDataSets.numberKeysDataSet.some((number) => keyToEvaluate === number.toString())) {
+    if (keyDataSets.numberKeysDataSet.some((number) => keyValue === number.toString())) {
       specificClass = keyClasses.calculatorNumberKey;
-    } else if (keyDataSets.operatorKeysDataSet.some((operator) => keyToEvaluate === operator)) {
+    } else if (keyDataSets.operatorKeysDataSet.some((operator) => keyValue === operator)) {
       specificClass = keyClasses.calculatorOperatorKey;
-      if (keyDataSets.specialKeyDataSet.some((operator) => keyToEvaluate === operator)) {
+      if (keyDataSets.specialKeyDataSet.some((operator) => keyValue === operator)) {
         specificClass = keyClasses.calculatorSpecialKey;
       }
     }
     if (specificClass !== undefined) {
-      keyValue = keyToEvaluate;
-      // TODO refactor this logic to uiGenerator
       const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
       const keyToPress = calcKeys.find((calcKey) => keyValue === calcKey.innerText);
-      keyToPress.classList.add('calculator__key--pressed');
-    } else {
-      return;
+      if (isButtonReleased) {
+        keyToPress.classList.remove('calculator__key--pressed');
+      } else {
+        keyToPress.classList.add('calculator__key--pressed');
+      }
+      return { keyValue, specificClass };
     }
+  }
+  return false;
+}
+
+function typeKey(e) {
+  let keyValue;
+  let specificClass;
+  const keyBoardValidValues = determineIfKeyIsSupportedByKeyboard(e.key, false);
+  if (keyBoardValidValues) {
+    keyValue = keyBoardValidValues.keyValue;
+    specificClass = keyBoardValidValues.specificClass;
   } else {
     keyValue = e.srcElement.dataset.keyValue;
     specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
@@ -197,4 +207,4 @@ function typeKey(e) {
   determineActionOnDisplay(keyValue, specificClass);
 }
 
-export { typeKey, getDisplayValue };
+export { typeKey, getDisplayValue, determineIfKeyIsSupportedByKeyboard };

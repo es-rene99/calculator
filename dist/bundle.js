@@ -633,13 +633,14 @@ const errorMsg = {
 /*!*********************************************!*\
   !*** ./src/modules/calc-keys-controller.js ***!
   \*********************************************/
-/*! exports provided: typeKey, getDisplayValue */
+/*! exports provided: typeKey, getDisplayValue, determineIfKeyIsSupportedByKeyboard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "typeKey", function() { return typeKey; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDisplayValue", function() { return getDisplayValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determineIfKeyIsSupportedByKeyboard", function() { return determineIfKeyIsSupportedByKeyboard; });
 /* harmony import */ var _calc_operate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calc-operate */ "./src/modules/calc-operate.js");
 /* harmony import */ var _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calc-keys-model */ "./src/modules/calc-keys-model.js");
 /* harmony import */ var _calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calc-error-msg-model */ "./src/modules/calc-error-msg-model.js");
@@ -821,37 +822,53 @@ const determineActionOnDisplay = (keyValue, specificClass) => {
   }
 };
 
-function typeKey(e) {
-  let keyValue;
-  let specificClass;
+function determineIfKeyIsSupportedByKeyboard(key, isButtonReleased) {
+  if (key !== undefined) {
+    let keyValue = key;
+    let specificClass;
 
-  if (e.key !== undefined) {
-    // TODO need to do more tests for backspace
-    let keyToEvaluate = e.key;
-
-    if (e.key === 'Backspace') {
-      keyToEvaluate = 'DEL';
+    if (key === 'Backspace') {
+      keyValue = 'DEL';
     }
 
-    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
+    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyValue === number.toString())) {
       specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
-    } else if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
+    } else if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyValue === operator)) {
       specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
 
-      if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
+      if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyValue === operator)) {
         specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
       }
     }
 
     if (specificClass !== undefined) {
-      keyValue = keyToEvaluate; // TODO refactor this logic to uiGenerator
-
       const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
       const keyToPress = calcKeys.find(calcKey => keyValue === calcKey.innerText);
-      keyToPress.classList.add('calculator__key--pressed');
-    } else {
-      return;
+
+      if (isButtonReleased) {
+        keyToPress.classList.remove('calculator__key--pressed');
+      } else {
+        keyToPress.classList.add('calculator__key--pressed');
+      }
+
+      return {
+        keyValue,
+        specificClass
+      };
     }
+  }
+
+  return false;
+}
+
+function typeKey(e) {
+  let keyValue;
+  let specificClass;
+  const keyBoardValidValues = determineIfKeyIsSupportedByKeyboard(e.key, false);
+
+  if (keyBoardValidValues) {
+    keyValue = keyBoardValidValues.keyValue;
+    specificClass = keyBoardValidValues.specificClass;
   } else {
     keyValue = e.srcElement.dataset.keyValue;
     specificClass = e.srcElement.classList[e.srcElement.classList.length - 1];
@@ -988,34 +1005,9 @@ function createCalculatorKeys() {
   }
 
   function removePressedKeyStyle(e) {
-    // TODO refactor into function since is also used on typekey
-    let keyValue;
-    let specificClass; // TODO need to do more tests for backspace
+    Object(_calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__["determineIfKeyIsSupportedByKeyboard"])(e.key, true);
+  } // TODO need to check code if more refactor is needed
 
-    let keyToEvaluate = e.key;
-
-    if (e.key === 'Backspace') {
-      keyToEvaluate = 'DEL';
-    }
-
-    if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyToEvaluate === number.toString())) {
-      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;
-    } else if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].operatorKeysDataSet.some(operator => keyToEvaluate === operator)) {
-      specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorOperatorKey;
-
-      if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].specialKeyDataSet.some(operator => keyToEvaluate === operator)) {
-        specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorSpecialKey;
-      }
-    }
-
-    if (specificClass !== undefined) {
-      keyValue = keyToEvaluate; // TODO refactor this logic to uiGenerator
-
-      const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
-      const keyToPress = calcKeys.find(calcKey => keyValue === calcKey.innerText);
-      keyToPress.classList.remove('calculator__key--pressed');
-    }
-  }
 
   function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
     const targetElement = document.querySelector(targetElementClass);

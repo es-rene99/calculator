@@ -1,4 +1,4 @@
-import { typeKey } from './calc-keys-controller';
+import { typeKey, determineIfKeyIsSupportedByKeyboard } from './calc-keys-controller';
 import { keyClasses, keyDataSets } from './calc-keys-model';
 
 export default function createCalculatorKeys() {
@@ -9,30 +9,7 @@ export default function createCalculatorKeys() {
   }
 
   function removePressedKeyStyle(e) {
-    // TODO refactor into function since is also used on typekey
-    let keyValue;
-    let specificClass;
-
-    // TODO need to do more tests for backspace
-    let keyToEvaluate = e.key;
-    if (e.key === 'Backspace') {
-      keyToEvaluate = 'DEL';
-    }
-    if (keyDataSets.numberKeysDataSet.some((number) => keyToEvaluate === number.toString())) {
-      specificClass = keyClasses.calculatorNumberKey;
-    } else if (keyDataSets.operatorKeysDataSet.some((operator) => keyToEvaluate === operator)) {
-      specificClass = keyClasses.calculatorOperatorKey;
-      if (keyDataSets.specialKeyDataSet.some((operator) => keyToEvaluate === operator)) {
-        specificClass = keyClasses.calculatorSpecialKey;
-      }
-    }
-    if (specificClass !== undefined) {
-      keyValue = keyToEvaluate;
-      // TODO refactor this logic to uiGenerator
-      const calcKeys = Array.from(document.querySelectorAll('.calculator__key'));
-      const keyToPress = calcKeys.find((calcKey) => keyValue === calcKey.innerText);
-      keyToPress.classList.remove('calculator__key--pressed');
-    }
+    determineIfKeyIsSupportedByKeyboard(e.key, true);
   }
 
   function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {

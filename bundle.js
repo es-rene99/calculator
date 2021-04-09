@@ -607,7 +607,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(); // TODO need to create a handler here in case an error occurs
+Object(_modules_uiGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
 /***/ }),
 
@@ -760,9 +760,24 @@ const possibleCalculatorActions = {
   },
 
   operationsIfValidToDoOperations(keyValue) {
+    function evaluateIfTermIsZero(term) {
+      const termSummation = term.reduce((total, number) => total + +number, 0);
+      return termSummation === 0;
+    }
+
     if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-      operationResult = Object(_calc_operate__WEBPACK_IMPORTED_MODULE_0__["default"])(previousTerm, display, storedOperator, previousOperationResult);
-      display = [operationResult];
+      if (evaluateIfTermIsZero(previousTerm) && evaluateIfTermIsZero(previousTerm) && storedOperator === '/') {
+        displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].divisionByZero);
+      } else {
+        operationResult = Object(_calc_operate__WEBPACK_IMPORTED_MODULE_0__["default"])(previousTerm, display, storedOperator, previousOperationResult);
+
+        if (Number.isNaN(operationResult) || operationResult === Infinity) {
+          displayErrorMsg(_calc_error_msg_model__WEBPACK_IMPORTED_MODULE_2__["default"].default);
+        } else {
+          display = [operationResult];
+        }
+      }
+
       previousOperationResult = operationResult;
       previousActionWasAnOperation = true;
 
@@ -1006,8 +1021,7 @@ function createCalculatorKeys() {
 
   function removePressedKeyStyle(e) {
     Object(_calc_keys_controller__WEBPACK_IMPORTED_MODULE_0__["determineIfKeyIsSupportedByKeyboard"])(e.key, true);
-  } // TODO need to check code if more refactor is needed
-
+  }
 
   function createKeyLayout(targetElementClass, newElementClass, newElementDataSet) {
     const targetElement = document.querySelector(targetElementClass);

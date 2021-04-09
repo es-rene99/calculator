@@ -932,14 +932,20 @@ const keyClasses = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 function replaceAns(term, previousOperationResult) {
-  return term.reduce((total, num) => {
+  const result = term.reduce((total, num) => {
     if (num === 'Ans') {
       const replacedAnsNum = previousOperationResult;
-      return total * replacedAnsNum;
+
+      if (total !== 0) {
+        return total * replacedAnsNum;
+      }
+
+      return replacedAnsNum;
     }
 
     return total + num;
-  });
+  }, 0);
+  return result;
 }
 
 function roundResult(operationResult) {

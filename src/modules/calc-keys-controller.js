@@ -104,14 +104,28 @@ const possibleCalculatorActions = {
     }
   },
   operationsIfValidToDoOperations(keyValue) {
+    function evaluateIfTermIsZero(term) {
+      const termSummation = term.reduce((total, number) => total + +number, 0);
+      return (termSummation === 0);
+    }
+
     if (storedOperator !== undefined && isReadyForOperation && !previousActionWasAnOperation) {
-      operationResult = operate(
-        previousTerm,
-        display,
-        storedOperator,
-        previousOperationResult,
-      );
-      display = [operationResult];
+      if (evaluateIfTermIsZero(previousTerm) && evaluateIfTermIsZero(previousTerm) && storedOperator === '/') {
+        displayErrorMsg(errorMsg.divisionByZero);
+      } else {
+        operationResult = operate(
+          previousTerm,
+          display,
+          storedOperator,
+          previousOperationResult,
+        );
+        if (Number.isNaN(operationResult) || operationResult === Infinity) {
+          displayErrorMsg(errorMsg.default);
+        } else {
+          display = [operationResult];
+        }
+      }
+
       previousOperationResult = operationResult;
       previousActionWasAnOperation = true;
 

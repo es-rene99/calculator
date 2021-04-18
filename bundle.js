@@ -838,13 +838,26 @@ const determineActionOnDisplay = (keyValue, specificClass) => {
 };
 
 function determineIfKeyIsSupportedByKeyboard(key, isButtonReleased) {
+  function setAltKey(keyValue) {
+    switch (keyValue) {
+      case 'Backspace':
+        return 'DEL';
+
+      case 'Escape':
+        return 'AC';
+
+      case 'Enter':
+        return '=';
+
+      default:
+        return keyValue;
+    }
+  }
+
   if (key !== undefined) {
     let keyValue = key;
     let specificClass;
-
-    if (key === 'Backspace') {
-      keyValue = 'DEL';
-    }
+    keyValue = setAltKey(keyValue);
 
     if (_calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyDataSets"].numberKeysDataSet.some(number => keyValue === number.toString())) {
       specificClass = _calc_keys_model__WEBPACK_IMPORTED_MODULE_1__["keyClasses"].calculatorNumberKey;

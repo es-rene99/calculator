@@ -16,22 +16,37 @@
     <header class="header">
       <h1>Calculator</h1>
     </header>
-    <main class="main">
-      <div class="calculator calculator--border">
-        <div class="calculator__screen calculator--border"></div>
-        <div class="calculator__keys-area calculator--border">
-          <div class="calculator__number-keys calculator--border"></div>
-          <div class="calculator__operator-keys calculator--border"></div>
+    <section class="app-wrapper">
+      <main class="main">
+        <div class="calculator calculator--border">
+          <div class="calculator__screen calculator--border"></div>
+          <div class="calculator__keys-area calculator--border">
+            <div class="calculator__number-keys calculator--border"></div>
+            <div class="calculator__operator-keys calculator--border"></div>
+          </div>
         </div>
-      </div>
-    </main>
-    <section class="keyboard-shortcuts">
-      <h2>Keyboard support:</h2>
-      <ul>
-        <li>You can use the number keys (obviously).</li>
-        <li>Backspace to delete the last number</li>
-      </ul>
+      </main>
+      <section class="sidebar-container">
+        <section class="keyboard-shortcuts">
+          <h2 class="keyboard-shortcuts__header">Keyboard support:</h2>
+          <div class="keyboard-shortcuts__instructions">
+            <ul>
+              <li>
+                You can type using numbers or symbols that are the same in the
+                calculator.
+              </li>
+              <li>Backspace = DEL, it deletes the last number you typed.</li>
+              <li>Esc = AC, it cleans the calculator.</li>
+              <li>You can also use Enter to use =.</li>
+            </ul>
+          </div>
+        </section>
+        <section class="view-code-btn">
+          <button type="button">TODO add a view code button</button>
+        </section>
+      </section>
     </section>
+
     <footer class="footer">
       Calculator icon by iconcheese from
       <a href="https://thenounproject.com/icon.cheese/">The Noun Project</a>
@@ -40,6 +55,5 @@
     <noscript
       >JavaScript is disabled, please enable so the calculator works c:
     </noscript>
-    <!-- TODO make noscript tag work on firefox -->
   </body>
 </html>

@@ -17,7 +17,9 @@
     "url": "https://github.com/wrightanythingacct/calculator/issues"
   },
   "homepage": "https://github.com/wrightanythingacct/calculator#readme",
-  "dependencies": {},
+  "dependencies": {
+    "svg-url-loader": "^7.1.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",

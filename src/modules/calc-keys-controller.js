@@ -3,7 +3,7 @@ import { keyClasses, keyDataSets } from './calc-keys-model';
 import errorMsg from './calc-error-msg-model';
 import isEmpty from './isEmpty-snippet';
 
-// TODO need to separate logic handler and display UI.
+// TODO need to separate logic handler and display UI in future enhancement
 
 let display = [];
 function getDisplayValue() {

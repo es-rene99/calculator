@@ -120,8 +120,6 @@ a {
   margin: 0 auto;
 }
 
-/* TODO left here adding instructions */
-
 .keyboard-shortcuts__header {
   margin-bottom: 5%;
   border: 1px solid white;
@@ -164,6 +162,12 @@ a {
   align-items: center;
   padding-bottom: 10px;
   margin: 1.1rem auto 0;
+}
+
+.view-code-btn:active {
+  width: 10rem;
+  height: 5.9rem;
+  filter: brightness(1.2);
 }
 
 .view-code-btn__icon {
